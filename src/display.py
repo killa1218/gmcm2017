@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib.patches import Circle as C
+from matplotlib.patches import Circle
+from matplotlib.collections import PatchCollection
 
 columns = ['zone no.', 'zone area(km^2)', 'zone area(m^2)', 'center x(m)', 'center y(m)', 'congestion']
 
@@ -58,9 +59,7 @@ y_min, y_max = int(y_min - 2000), int(y_max + 2000)
 
 # plt.ion()
 
-fig = plt.figure()
-
-subp = fig.add_subplot(111)
+fig, subp = plt.subplots()
 
 # bgimg = plt.imread('../map.jpg')
 # subp.imshow(bgimg)
@@ -86,24 +85,32 @@ scale = 1
 subp.scatter(x=(source_x - left) * scale, y=(source_y - up) * scale, c='r', marker='s')
 subp.scatter(x=(city_x - left) * scale, y=(city_y - up) * scale, c=city_congestion, vmin=0, vmax=10, marker='s')
 
-for i in range(len(node_uls_flow_txt)):
-    _x, _y = city_x[i]-500, city_y[i]+200
-    subp.text(_x, _y, node_uls_flow_txt[i])
+# for i in range(len(node_uls_flow_txt)):
+#     _x, _y = city_x[i]-500, city_y[i]+200
+    # subp.text(_x, _y, node_uls_flow_txt[i])
 
-with open('../data/kmeansresult/k_clusters_resultrandom_init45.txt', 'r') as f:
+with open('../data/kmeansresult/k_clusters_result27.txt', 'r') as f:
     pset = set()
 
     for line in f.readlines():
         center = line.split('\t')[0] # num:x,y
-        cid, p = center.split(':')
-        x, y = p.split(',')
-        point = (float(x), float(y))
-        pset.add(point)
+        cid, p = center.split(':') # x,y
 
+        if ',' in p:
+            x, y = p.split(',')
+            point = (float(x), float(y))
+            pset.add(point)
+
+patches = []
 for point in pset:
-    cir = C(xy = point, radius = 3, fill = False, ls = 'dashed')
-
+    cir = Circle(xy = point, radius = 3000, fill = False, ls = 'dashed')
     subp.add_patch(cir)
+
+    # patches.append(cir)
+
+# p = PatchCollection(patches, alpha=0.4)
+# subp.add_collection(p)
+
 
 plt.xlim(x_min, x_max)
 plt.ylim(y_min, y_max)
