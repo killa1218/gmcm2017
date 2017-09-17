@@ -10,8 +10,8 @@ def loadDataset(infile):
     df = pd.read_csv(infile, sep='\t', header=None, dtype=str, na_filter=False)
     return np.array(df).astype(np.float)
 
-def output(chooseinit,k,clf):
-    outname = "../../data/kmeansresult/k_clusters_result" + chooseinit + str(k) + ".txt"
+def output(k,clf,data_X,data_od):
+    outname = "../../data/kmeansresult/k_clusters_result" + str(k) + ".txt"
     fw = codecs.open(outname,'w')
     cents = clf._centroids
     labels = clf._labels
@@ -27,10 +27,8 @@ def output(chooseinit,k,clf):
         if len(x0) != 0:
             tmpcnt += 1
 
-def getkmeansresult(k,data_X):
-    print(k)
-    # clf = KMeansClassifier(k)
-    clf = biKMeansClassifier(k)
+def getkmeansresult(k,data_X,data_od):
+    clf = KMeansClassifier(k)
     clf.fit(data_X)
     cents = clf._centroids
     labels = clf._labels
@@ -41,35 +39,49 @@ def getkmeansresult(k,data_X):
         x0 = data_X[index, 0]
         x1 = data_X[index, 1]
         y_i = i
+        tmpsum = 0
+        # print(len(data_od[index]))
         for j in range(len(x0)):
             tmpl = np.math.sqrt( np.power(cents[i, 0] - x0[j],2) +  np.power(cents[i, 1] - x1[j],2))
+            # print (data_od[index][j])
+            tmpsum += data_od[index,0][j]
+            # print(tmpsum)
             if tmpl > 3000:
                 flag = False
                 break
-        if flag == False:
+        # print(tmpsum)
+        if tmpsum > 3000:
+            flag = False
+        if flag == False :
             break
     return flag,clf
 
 
-def bi_search_k(data_X):
+def bi_search_k(data_X,data_od):
     lc = 1
     rc = len(data_X)
     while lc < rc:
         mc = int((lc + rc) / 2)
-        flag,clf = getkmeansresult(mc,data_X)
+        flag,clf = getkmeansresult(mc,data_X,data_od)
         if flag == True:
             rc = mc
         else:
             lc = mc + 1
     print(mc)
     # if (mc > 40 and mc < 50) or (mc > 20 and mc < 30):
-    # output("random_init",mc,clf)
-    output("update_init",mc,clf)
+    output(mc,clf,data_X,data_od)
+    return mc
 
 
 if __name__ == "__main__":
     data_X = loadDataset(r"../../data/kmeansdata/input.txt")
-    bi_search_k(data_X)
+    data_od = loadDataset(r"../../data/kmeansdata/od.txt")
+    # print(data_od)
+    mink = np.inf
+    for i in range(100):
+        tmpk = bi_search_k(data_X,data_od)
+        mink = min(tmpk,mink)
+    print("mink" + str(mink))
     # k = 3
     # clf = KMeansClassifier(k)
     # clf.fit(data_X)

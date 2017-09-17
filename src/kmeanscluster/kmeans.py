@@ -36,6 +36,7 @@ class KMeansClassifier():
         """
         n = data_X.shape[1]  # 获取特征的维数
         centroids = np.empty((k, n))  # 使用numpy生成一个k*n的矩阵，用于存储质心
+        # print(data_X)
         for j in range(n):
             minJ = min(data_X[:, j])
             rangeJ = float(max(data_X[:, j] - minJ))
@@ -140,7 +141,9 @@ class biKMeansClassifier():
                 index_all = self._clusterAssment[:, 0]
                 value = np.nonzero(index_all == i)
                 ptsInCurrCluster = X[value[0], :]
-                clf = KMeansClassifier(k=2)
+                if len(ptsInCurrCluster) == 0:
+                    continue
+                clf = KMeansClassifier(k = len(centList) + 1)
                 clf.fit(ptsInCurrCluster)
                 centroidMat, splitClustAss = clf._centroids, clf._clusterAssment
                 sseSplit = sum(splitClustAss[:, 1])
