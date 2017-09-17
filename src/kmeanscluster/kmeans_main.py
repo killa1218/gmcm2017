@@ -22,14 +22,17 @@ def output(k,clf,data_X,data_od):
         x0 = data_X[index, 0]
         x1 = data_X[index, 1]
         y_i = i
+        tmpsum = 0
         for j in range(len(x0)):
             fw.write(str(tmpcnt) + ":" + str(cents[i, 0]) + "," + str(cents[i, 1]) + "\t" + str(index[j] + 4) + ":" + str(x0[j]) + "," + str(x1[j]) + "\n")
+            tmpsum += data_od[index,0][j]
         if len(x0) != 0:
+            fw.write(str(tmpcnt) + ":" + str(tmpsum) + "\n")
             tmpcnt += 1
 
 def getkmeansresult(k,data_X,data_od):
     clf = KMeansClassifier(k)
-    clf.fit(data_X)
+    clf.fit(data_X,data_od)
     cents = clf._centroids
     labels = clf._labels
     flag = True
@@ -50,7 +53,10 @@ def getkmeansresult(k,data_X,data_od):
                 flag = False
                 break
         # print(tmpsum)
-        if tmpsum > 3000:
+        if tmpsum > 4000:
+            # print (tmpsum)
+            # print (i)
+            # print(index)
             flag = False
         if flag == False :
             break
@@ -76,7 +82,7 @@ def bi_search_k(data_X,data_od):
 if __name__ == "__main__":
     data_X = loadDataset(r"../../data/kmeansdata/input.txt")
     data_od = loadDataset(r"../../data/kmeansdata/od.txt")
-    # print(data_od)
+    # print(data_od[3][0])
     mink = np.inf
     for i in range(100):
         tmpk = bi_search_k(data_X,data_od)

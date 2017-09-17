@@ -44,7 +44,7 @@ class KMeansClassifier():
             centroids[:, j] = (minJ + rangeJ * np.random.rand(k, 1)).flatten()
         return centroids
 
-    def fit(self, data_X):
+    def fit(self, data_X,data_od):
         """
         输入：一个m*n维的矩阵
         """
@@ -62,9 +62,10 @@ class KMeansClassifier():
 
         if self._initCent == 'random':
             self._centroids = self._randCent(data_X, self._k)
-
         clusterChanged = True
         for _ in range(self._max_iter):
+            # print (_)
+            centerod = [4000 for i in range(self._k)]
             clusterChanged = False
             for i in range(m):
                 minDist = np.inf
@@ -73,9 +74,11 @@ class KMeansClassifier():
                     arrA = self._centroids[j, :]
                     arrB = data_X[i, :]
                     distJI = self._calEDist(arrA, arrB)
-                    if distJI < minDist:
+                    if distJI < minDist and centerod[j] - data_od[i][0] > 0:
                         minDist = distJI
                         minIndex = j
+                        # centerod[j] -= data_od[i][0]
+                centerod[minIndex] -= data_od[i][0]
                 if self._clusterAssment[i, 0] != minIndex:
                     clusterChanged = True
                     self._clusterAssment[i, :] = minIndex, minDist ** 2
