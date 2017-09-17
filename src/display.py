@@ -1,21 +1,22 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.patches import Circle as C
 
 columns = ['zone no.', 'zone area(km^2)', 'zone area(m^2)', 'center x(m)', 'center y(m)', 'congestion']
 
 # f = open('center_area.csv')
 # columns = f.readline().strip().split(',')
 
-ids = [1,2,3,4,791,792,793,794,795,796,797,798,799,800,801,802,803,804,805,806,807,808,809,810,811,812,813,814,815,816,817,818,819,820,821,822,823,824,825,826,827,828,829,830,831,832,833,834,835,836,837,838,839,840,841,842,843,844,845,846,847,848,849,850,851,852,853,854,855,856,857,858,859,860,861,862,863,864,865,866,867,868,869,870,871,872,873,874,875,876,877,878,879,880,881,882,883,884,885,886,887,888,889,890,891,892,893,894,895,896,897,898,899,900]
+ids = np.loadtxt('../data/idx2node.txt')
 
 # row: a send b
-send_mat = np.loadtxt('OD_data.csv', skiprows=1, delimiter=',')[:, 1:]
+send_mat = np.loadtxt('../data/od.txt')
 receive_mat = send_mat.transpose()
 
 node_send = send_mat.sum(axis=1)
 node_receive = receive_mat.sum(axis=1)
 
-d = np.loadtxt('center_area.csv', skiprows=1, delimiter=',')
+d = np.loadtxt('../data/center_area.csv', skiprows=1, delimiter=',')
 
 class Node:
     def __init__(self, no, akm=0, am=0, x=0, y=0, c=0):
@@ -44,6 +45,7 @@ class NodeGroup:
             c_arr.append(c.c)
         return np.array(c_arr)
 
+
 source_nodes = NodeGroup([Node(*x) for x in d[:4]])
 city_nodes = NodeGroup([Node(*x) for x in d[4:]])
 
@@ -55,36 +57,57 @@ y_min, y_max = int(y_min - 2000), int(y_max + 2000)
 # print x_min, x_max, y_min, y_max
 
 # plt.ion()
+
+fig = plt.figure()
+
+subp = fig.add_subplot(111)
+
+# bgimg = plt.imread('../map.jpg')
+# subp.imshow(bgimg)
+
 plt.rcParams["figure.figsize"] = [(x_max - x_min)/2000,(y_max - y_min)/2000]
+# plt.rcParams["figure.figsize"] = [(x_max - x_min),(y_max - y_min)]
 
 source_x, source_y = source_nodes.get_pos()
 city_x, city_y = city_nodes.get_pos()
 city_congestion = city_nodes.get_congestion()
 
+
 node_uls_flow = (node_send + node_receive)[4:] * (city_congestion - 4) / city_congestion
 node_uls_flow[node_uls_flow < 0] = 0
-node_uls_flow_txt = map(lambda x: '%.1f'%x, node_uls_flow)
+node_uls_flow_txt = list(map(lambda x: '%.1f'%x, node_uls_flow))
 
-class kmeans:
-    def __init__(self, k, radius, eps=1e-6):
-        self.k = k
-        self.radius = radius
-        # self.nodes = nodes
-        randx = np.random.random(k) * (x_max - x_min) + x_min
-        randy = np.random.random(k) * (y_max - y_min) + y_min
-        self.centers = NodeGroup([Node(no=i+1, x=randx[i], y=randy[i]) for i in range(k)])
 
-    def fit(self, nodes):
-        pass
+left = 0
+up = 0
+scale = 1
 
-plt.scatter(x=source_x, y=source_y, c='r', marker='s')
-plt.scatter(x=city_x, y=city_y, c=city_congestion, vmin=0, vmax=10, marker='s')
+
+subp.scatter(x=(source_x - left) * scale, y=(source_y - up) * scale, c='r', marker='s')
+subp.scatter(x=(city_x - left) * scale, y=(city_y - up) * scale, c=city_congestion, vmin=0, vmax=10, marker='s')
+
 for i in range(len(node_uls_flow_txt)):
     _x, _y = city_x[i]-500, city_y[i]+200
-    plt.text(_x, _y, node_uls_flow_txt[i])
+    subp.text(_x, _y, node_uls_flow_txt[i])
+
+with open('../data/kmeansresult/k_clusters_resultrandom_init45.txt', 'r') as f:
+    pset = set()
+
+    for line in f.readlines():
+        center = line.split('\t')[0] # num:x,y
+        cid, p = center.split(':')
+        x, y = p.split(',')
+        point = (float(x), float(y))
+        pset.add(point)
+
+for point in pset:
+    cir = C(xy = point, radius = 3, fill = False, ls = 'dashed')
+
+    subp.add_patch(cir)
+
 plt.xlim(x_min, x_max)
 plt.ylim(y_min, y_max)
-plt.colorbar(fraction=0.05, pad=-0.05, shrink=0.6)
+# subp.colorbar(fraction=0.05, pad=-0.05, shrink=0.6)
 plt.show()
 
 # for i in range(5):
