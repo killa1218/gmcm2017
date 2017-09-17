@@ -88,29 +88,3 @@ if __name__ == "__main__":
         tmpk = bi_search_k(data_X,data_od)
         mink = min(tmpk,mink)
     print("mink" + str(mink))
-    # k = 3
-    # clf = KMeansClassifier(k)
-    # clf.fit(data_X)
-    # cents = clf._centroids
-    # labels = clf._labels
-    # sse = clf._sse
-    # colors = ['b', 'g', 'r', 'k', 'c', 'm', 'y', '#e24fff', '#524C90', '#845868']
-    # print(cents)
-    # for i in range(k):
-    #     index = np.nonzero(labels == i)[0]
-    #     print( len(index))
-    #     x0 = data_X[index, 0]
-    #     x1 = data_X[index, 1]
-    #     # print(x0,x1)
-    #     y_i = i
-    #     for j in range(len(x0)):
-    #         plt.text(x0[j], x1[j], str(y_i), color=colors[i], \
-    #                  fontdict={'weight': 'bold', 'size': 6})
-    #     plt.scatter(cents[i, 0]  , cents[i, 1], marker='x', color=colors[i], \
-    #                 linewidths=7)
-    #
-    # plt.title("SSE={:.2f}".format(sse))
-    # plt.axis([130000, 170000, 130000, 170000])
-    # outname = "./result/k_clusters" + str(k) + ".png"
-    # plt.savefig(outname)
-    # plt.show()
