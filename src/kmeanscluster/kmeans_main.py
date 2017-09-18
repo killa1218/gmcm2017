@@ -2,9 +2,8 @@ import pandas as pd
 import numpy as np
 import codecs
 from kmeans import KMeansClassifier
-from kmeans import biKMeansClassifier
 import matplotlib.pyplot as plt
-
+import time
 
 def loadDataset(infile):
     df = pd.read_csv(infile, sep='\t', header=None, dtype=str, na_filter=False)
@@ -73,10 +72,10 @@ def bi_search_k(data_X,data_od):
             rc = mc
         else:
             lc = mc + 1
-    print(mc)
+    print(rc)
     # if (mc > 40 and mc < 50) or (mc > 20 and mc < 30):
-    output(mc,clf,data_X,data_od)
-    return mc
+    output(rc,clf,data_X,data_od)
+    return rc
 
 
 if __name__ == "__main__":
@@ -84,7 +83,11 @@ if __name__ == "__main__":
     data_od = loadDataset(r"../../data/kmeansdata/od.txt")
     # print(data_od[3][0])
     mink = np.inf
-    for i in range(100):
+
+    for i in range(1):
+        start = time.clock()
         tmpk = bi_search_k(data_X,data_od)
         mink = min(tmpk,mink)
+        elapsed = (time.clock() - start)
+        print("Time used:", elapsed)
     print("mink" + str(mink))
