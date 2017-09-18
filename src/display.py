@@ -1,3 +1,4 @@
+import math
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.patches import Circle
@@ -18,6 +19,9 @@ node_send = send_mat.sum(axis=1)
 node_receive = receive_mat.sum(axis=1)
 
 d = np.loadtxt('../data/center_area.csv', skiprows=1, delimiter=',')
+
+def distance(point1, point2):
+    return math.sqrt((point1[0] - point2[0]) ** 2 + (point1[1] - point2[1]) ** 2)
 
 class Node:
     def __init__(self, no, akm=0, am=0, x=0, y=0, c=0):
@@ -91,19 +95,42 @@ subp.scatter(x=(city_x - left) * scale, y=(city_y - up) * scale, c=city_congesti
 
 with open('../data/kmeansresult/k_clusters_result27.txt', 'r') as f:
     pset = set()
+    clusters = {}
 
     for line in f.readlines():
         center = line.split('\t')[0] # num:x,y
         cid, p = center.split(':') # x,y
 
+        cluster = clusters.setdefault(cid, {})
+
         if ',' in p:
+            contain = line.split('\t')[1]
+            cityidx, cp = contain.split(':')
             x, y = p.split(',')
             point = (float(x), float(y))
             pset.add(point)
 
+            cluster['point'] = point
+            containlist = cluster.setdefault('contain', [])
+
+            x, y = cp.split(',')
+            cpoint = (float(x), float(y))
+            containlist.append({'idx': cityidx, 'point': cpoint})
+
+            curmax = cluster.setdefault('maxdist', 0)
+
+            cluster['maxdist'] = max(curmax, distance(point, cpoint))
+        else:
+            cluster['quantity'] = float(p)
+
+
 patches = []
-for point in pset:
-    cir = Circle(xy = point, radius = 3000, fill = False, ls = 'dashed')
+# for point in pset:
+for cid, clu in clusters.items():
+    cir = Circle(xy = clu['point'], radius = min(clu['maxdist'], 3000), fill = False, ls = 'dashed')
+    # cir = Circle(xy = clu['point'], radius = 3000, fill = False, ls = 'dashed')
+
+    # cir = Circle(xy = point, radius = 3000, fill = False, ls = 'dashed')
     subp.add_patch(cir)
 
     # patches.append(cir)
