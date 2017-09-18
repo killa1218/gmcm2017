@@ -9,6 +9,7 @@ np.random.seed(int(time.time()))
 CONGEST_THRESHOLD = 4
 
 toy = ''
+print('new')
 
 congesData = np.loadtxt('../data/conges{}.txt'.format(toy))
 
@@ -31,7 +32,9 @@ ug_flow = ug_flow_ub * rand
 def from_campus(xx):
     xx = xx.reshape((total_num, total_num))
 
-    return -(xx[:4, :].sum() + xx[:, :4].sum())
+    # return -(xx[:4, :].sum() + xx[:, :4].sum())
+    return -(xx[0][98] + xx[1][61] + xx[2][13] + xx[3][98] + xx[98][0] + xx[61][1] + xx[13][2] + xx[98][3])
+    # return -xx[0, :].sum()
 
 def get_jac(xx):
     return UTPM.extract_jacobian(from_campus(xx))
