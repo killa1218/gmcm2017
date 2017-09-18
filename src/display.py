@@ -93,7 +93,7 @@ subp.scatter(x=(city_x - left) * scale, y=(city_y - up) * scale, c=city_congesti
 #     _x, _y = city_x[i]-500, city_y[i]+200
     # subp.text(_x, _y, node_uls_flow_txt[i])
 
-with open('../data/kmeansresult/k_clusters_result37.txt', 'r') as f:
+with open('../data/kmeansresult/k_clusters_result35.txt', 'r') as f:
     pset = set()
     clusters = {}
 
