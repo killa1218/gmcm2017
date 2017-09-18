@@ -125,19 +125,16 @@ with open('../data/kmeansresult/k_clusters_result35.txt', 'r') as f:
 
 
 patches = []
-# for point in pset:
 for cid, clu in clusters.items():
-    cir = Circle(xy = clu['point'], radius = min(clu['maxdist'], 3000), fill = False, ls = 'dashed')
+    if clu['quantity'] > 3000:
+        color = 'r'
+    else:
+        color = 'b'
+
+    cir = Circle(xy = clu['point'], radius = min(clu['maxdist'], 3000), fill = False, ls = 'dashed', color = color)
     # cir = Circle(xy = clu['point'], radius = 3000, fill = False, ls = 'dashed')
 
-    # cir = Circle(xy = point, radius = 3000, fill = False, ls = 'dashed')
     subp.add_patch(cir)
-
-    # patches.append(cir)
-
-# p = PatchCollection(patches, alpha=0.4)
-# subp.add_collection(p)
-
 
 plt.xlim(x_min, x_max)
 plt.ylim(y_min, y_max)
