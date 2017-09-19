@@ -101,7 +101,51 @@ if plot_ug_flow:
         _x, _y = city_x[i]-500, city_y[i]+200
         subp.text(_x, _y, node_uls_flow_txt[i])
 
-num = 56
+
+num = 42
+if plot_link:
+    import json
+
+    allcost = 0
+    with open('../data/linksresult/campuslink_{}.json'.format(num), 'r') as cf, \
+            open('../data/linksresult/links_{}.json'.format(num), 'r') as lf:
+        campuslink = json.load(cf)
+        links = json.load(lf)
+
+        for clink in campuslink:
+            if 'campus_axis' not in clink:
+                allcost += clink['allcost']
+                continue
+
+            cx = clink['campus_axis'][0]
+            cy = clink['campus_axis'][1]
+            ex = clink['endnode_axis'][0]
+            ey = clink['endnode_axis'][1]
+
+            if clink['campus_capacity'] > 7200:
+                lineweight = 4
+            else:
+                lineweight = 1
+
+            subp.plot([cx, ex], [cy, ey], color = 'k', lw = lineweight, alpha = 0.5)
+
+        for link in links:
+            if 'node_axis' not in link:
+                if 'allcost' in link:
+                    allcost += link['allcost']
+
+                continue
+
+            lx = link['node_axis'][0]
+            ly = link['node_axis'][1]
+
+            for endnode in link['links']:
+                elx = endnode['endnode_axis'][0]
+                ely = endnode['endnode_axis'][1]
+
+                subp.plot([lx, elx], [ly, ely], color = 'k', lw = 1, alpha = 0.5)
+
+
 if plot_cluster:
     with open('../data/kmeansresult/k_clusters_result_919{}.txt'.format(num), 'r') as f:
         pset = set()
@@ -146,44 +190,7 @@ if plot_cluster:
         subp.add_patch(cir)
         subp.scatter(clu['point'][0], clu['point'][1], alpha=0.3, marker='*', s=node_point_size, color = color)
 
-    plt.title(num)
-
-if plot_link:
-    import json
-    with open('../data/linksresult/campuslink_{}.json'.format(num), 'r') as cf,\
-        open('../data/linksresult/links_{}.json'.format(num), 'r') as lf:
-        campuslink = json.load(cf)
-        links = json.load(lf)
-
-        for clink in campuslink:
-            if 'campus_axis' not in clink:
-                continue
-
-            cx = clink['campus_axis'][0]
-            cy = clink['campus_axis'][1]
-            ex = clink['endnode_axis'][0]
-            ey = clink['endnode_axis'][1]
-
-            if clink['campus_capacity'] > 7200:
-                lineweight = 4
-            else:
-                lineweight = 1
-
-            subp.plot([cx, ex], [cy, ey], color = 'k', lw = lineweight, alpha = 0.5)
-
-        for link in links:
-            if 'node_axis' not in link:
-                continue
-
-            lx = link['node_axis'][0]
-            ly = link['node_axis'][1]
-
-            for endnode in link['links']:
-                elx = endnode['endnode_axis'][0]
-                ely = endnode['endnode_axis'][1]
-
-                subp.plot([lx, elx], [ly, ely], color = 'k', lw = 1, alpha = 0.5)
-
+    plt.title('Number: {}, Allcost: {}'.format(num, allcost))
 
 # subp.legend()
 
