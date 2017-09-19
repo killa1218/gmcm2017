@@ -6,7 +6,7 @@ from collections import defaultdict
 from heapq import *
 import json
 
-clustercnt = 64
+clustercnt = 42
 
 def loadDataset(infile):
     df = pd.read_csv(infile, sep = '\t', header = None, dtype = str, na_filter = False)
@@ -169,7 +169,7 @@ def output(data_x,data_od,data_od_matrix,nodedict,firstnodedict,secondenodedict,
             tmpdict["distance"] = distance / 1000.0
             tmpdict["edgeod"] = edgeod
             tmpdict["cost_travel"] = distance / 1000.0 * edgeod
-            tmpdict["cost_tunnel"] = (350000000 if edgeod > 3600 else 300000000) * (distance / 1000.0) / (36500*1.0)
+            tmpdict["cost_tunnel"] = (350000000 if edgeod > 3600 else 350000000) * (distance / 1000.0) / (36500*1.0)
             tunnelcost += tmpdict["cost_tunnel"]
             travelcost += tmpdict["cost_travel"]
             linkslist.append(tmpdict)

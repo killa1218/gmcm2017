@@ -6,7 +6,7 @@ from collections import defaultdict
 from heapq import *
 import json
 
-clustercnt = 64
+clustercnt = 42
 def loadDataset(infile):
     df = pd.read_csv(infile, sep = '\t', header = None, dtype = str, na_filter = False)
     return np.array(df).astype(np.float)
@@ -55,7 +55,7 @@ def getlinks(campusid,cpoint,ctood,cfromod,nodedict,linksinfo):
         tmpdict["endnode_axis"] = (item["node_axis"][0],item["node_axis"][1])
         tmpdict["distance"] = ccdistance/1000
         tmpdict["cost_travel"] = allto * ccdistance / 1000 + allfrom * ccdistance / 1000
-        tmpdict["cost_tunnel"] = (500000000 if allto > 7200 else 400000000) * ccdistance / 1000 / 36500
+        tmpdict["cost_tunnel"] = (500000000 if allto > 7200 else 500000000) * ccdistance / 1000 / 36500
         campuscost = (tmpdict["cost_travel"] + tmpdict["cost_tunnel"])
     tmpdict["campuscost"] = campuscost
     # print(usenode,mindistance)
