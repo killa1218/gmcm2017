@@ -6,6 +6,8 @@ from collections import defaultdict
 from heapq import *
 import json
 
+clustercnt = 64
+
 def loadDataset(infile):
     df = pd.read_csv(infile, sep = '\t', header = None, dtype = str, na_filter = False)
     return np.array(df).astype(np.float)
@@ -134,7 +136,7 @@ def getedgeod(startnode,root,alledges,nodedict,data_od_matrix):
 def output(data_x,data_od,data_od_matrix,nodedict,firstnodedict,secondenodedict,mst):
     outlist = []
     alledges = mst
-    f = open("../../data/linksresult/links.json", 'w')
+    f = open("../../data/linksresult/links_{}.json".format(clustercnt), 'w')
     for k,v in secondenodedict.items():
         alledges[k] = v
         alledges[v[0][0]].append((k,v[0][1]))
@@ -163,7 +165,8 @@ def output(data_x,data_od,data_od_matrix,nodedict,firstnodedict,secondenodedict,
             edgeod = getedgeod(k,endnode,alledges,nodedict,data_od_matrix)
             tmpmax = max(tmpmax,edgeod)
             tmpdict["endnode"] = endnode
-            tmpdict["distance"] = distance
+            tmpdict["endnode_axis"] = nodedict[endnode][0]
+            tmpdict["distance"] = distance / 1000.0
             tmpdict["edgeod"] = edgeod
             tmpdict["cost_travel"] = distance / 1000.0 * edgeod
             tmpdict["cost_tunnel"] = (350000000 if edgeod > 3600 else 300000000) * (distance / 1000.0) / (36500*1.0)
@@ -184,7 +187,9 @@ def output(data_x,data_od,data_od_matrix,nodedict,firstnodedict,secondenodedict,
 if __name__ == "__main__":
     data_x = loadDataset(r"../../data/kmeansdata/input.txt")
     data_od = loadDataset(r"../../data/kmeansdata/od.txt")
-    nodedict = readdata(r"../../data/kmeansresult/k_clusters_result35.txt")
+    nodedict = readdata(r"../../data/kmeansresult/k_clusters_result_919{}.txt".format(clustercnt))
+    with open("../../data/linksresult/node4citys_{}.json".format(clustercnt),'w') as f:
+        json.dump(nodedict,f,indent = 2)
     data_od_matrix = loadDataset(r"../../data/kmeansdata/odmatrix.txt")
     # print(data_x)
     # print(data_od)

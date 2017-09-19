@@ -1,0 +1,73 @@
+[
+  {
+    "campus_id": 1,
+    "campus_axis": [
+      139382.3437,
+      146047.0951
+    ],
+    "campus_capacity": 9225.772984125999,
+    "endnode": 2,
+    "endnode_axis": [
+      139713.185,
+      152586.615
+    ],
+    "distance": 6.5478833593980195,
+    "cost_travel": 122247.93879913175,
+    "cost_tunnel": 89697.03232052083,
+    "campuscost": 211944.97111965256
+  },
+  {
+    "campus_id": 2,
+    "campus_axis": [
+      157688.4185,
+      148489.031
+    ],
+    "campus_capacity": 9116.874987306,
+    "endnode": 11,
+    "endnode_axis": [
+      149971.33,
+      151173.156667
+    ],
+    "distance": 8.170556010032653,
+    "cost_travel": 155222.17026228795,
+    "cost_tunnel": 111925.42479496787,
+    "campuscost": 267147.5950572558
+  },
+  {
+    "campus_id": 3,
+    "campus_axis": [
+      149441.1622,
+      167278.6394
+    ],
+    "campus_capacity": 9712.575204487,
+    "endnode": 31,
+    "endnode_axis": [
+      149019.39,
+      159990.915
+    ],
+    "distance": 7.299919089897356,
+    "cost_travel": 134950.47106247416,
+    "cost_tunnel": 99998.89164242953,
+    "campuscost": 234949.3627049037
+  },
+  {
+    "campus_id": 4,
+    "campus_axis": [
+      131764.713,
+      162103.0925
+    ],
+    "campus_capacity": 4156.326471996998,
+    "endnode": 24,
+    "endnode_axis": [
+      137382.932,
+      159056.266
+    ],
+    "distance": 6.391207746041694,
+    "cost_travel": 55293.116846523364,
+    "cost_tunnel": 70040.63283333364,
+    "campuscost": 125333.749679857
+  },
+  {
+    "allcost": 839375.6785616692
+  }
+]
