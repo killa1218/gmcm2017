@@ -91,9 +91,9 @@ node_point_size = 50
 subp.scatter(x=(source_x - left) * scale, y=(source_y - up) * scale, c='r', marker='o', s = city_point_size, alpha = 0.7)
 subp.scatter(x=(city_x - left) * scale, y=(city_y - up) * scale, c=city_uls_flow, vmin=min(city_uls_flow), vmax=max(city_uls_flow), marker='s', s = city_point_size, alpha = 0.7)
 
-plot_ug_flow = True
+plot_ug_flow = False
 plot_cluster = True
-plot_link = False
+plot_link = True
 
 
 if plot_ug_flow:
@@ -101,9 +101,8 @@ if plot_ug_flow:
         _x, _y = city_x[i]-500, city_y[i]+200
         subp.text(_x, _y, node_uls_flow_txt[i])
 
-
+num = 56
 if plot_cluster:
-    num = 56
     with open('../data/kmeansresult/k_clusters_result_919{}.txt'.format(num), 'r') as f:
         pset = set()
         clusters = {}
@@ -151,33 +150,39 @@ if plot_cluster:
 
 if plot_link:
     import json
-    with open('../data/linksresult/campuslink.json', 'r') as cf,\
-        open('../data/linksresult/links.json', 'r') as lf:
+    with open('../data/linksresult/campuslink_{}.json'.format(num), 'r') as cf,\
+        open('../data/linksresult/links_{}.json'.format(num), 'r') as lf:
         campuslink = json.load(cf)
         links = json.load(lf)
 
         for clink in campuslink:
-            cx = clink.campus_axis[0]
-            cy = clink.campus_axis[1]
-            ex = clink.endnode_axis[0]
-            ey = clink.endnode_axis[1]
+            if 'campus_axis' not in clink:
+                continue
 
-            if clink.campus_capacity > 7200:
+            cx = clink['campus_axis'][0]
+            cy = clink['campus_axis'][1]
+            ex = clink['endnode_axis'][0]
+            ey = clink['endnode_axis'][1]
+
+            if clink['campus_capacity'] > 7200:
                 lineweight = 4
             else:
-                lineweight = 2
+                lineweight = 1
 
-            subp.plot(x = [cx, ex], y = [cy, ey], color = 'k', lw = lineweight)
+            subp.plot([cx, ex], [cy, ey], color = 'k', lw = lineweight, alpha = 0.5)
 
         for link in links:
-            lx = link.node_axis[0]
-            ly = link.node_axis[1]
+            if 'node_axis' not in link:
+                continue
 
-            for endnode in link.links:
-                elx = endnode.endnode_axis[0]
-                ely = endnode.endnode_axis[1]
+            lx = link['node_axis'][0]
+            ly = link['node_axis'][1]
 
-                subp.plot(x = [lx, elx], y = [ly, ely], color = 'k', lw = 2)
+            for endnode in link['links']:
+                elx = endnode['endnode_axis'][0]
+                ely = endnode['endnode_axis'][1]
+
+                subp.plot([lx, elx], [ly, ely], color = 'k', lw = 1, alpha = 0.5)
 
 
 # subp.legend()
