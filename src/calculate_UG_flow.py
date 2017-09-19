@@ -9,7 +9,6 @@ np.random.seed(int(time.time()))
 CONGEST_THRESHOLD = 4
 
 toy = ''
-print('new')
 
 congesData = np.loadtxt('../data/conges{}.txt'.format(toy))
 

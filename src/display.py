@@ -2,6 +2,7 @@ import math
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.patches import Circle
+from matplotlib.colorbar import Colorbar as cb
 from matplotlib.collections import PatchCollection
 
 columns = ['zone no.', 'zone area(km^2)', 'zone area(m^2)', 'center x(m)', 'center y(m)', 'congestion']
@@ -12,11 +13,11 @@ columns = ['zone no.', 'zone area(km^2)', 'zone area(m^2)', 'center x(m)', 'cent
 ids = np.loadtxt('../data/idx2node.txt')
 
 # row: a send b
-send_mat = np.loadtxt('../data/od.txt')
-receive_mat = send_mat.transpose()
+ug_flow_od = np.loadtxt('../data/ug_od.txt')
+receive_mat = ug_flow_od.transpose()
 
-node_send = send_mat.sum(axis=1)
-node_receive = receive_mat.sum(axis=1)
+city_send = ug_flow_od.sum(axis=1)
+city_receive = receive_mat.sum(axis=1)
 
 d = np.loadtxt('../data/center_area.csv', skiprows=1, delimiter=',')
 
@@ -76,24 +77,25 @@ city_x, city_y = city_nodes.get_pos()
 city_congestion = city_nodes.get_congestion()
 
 
-node_uls_flow = (node_send + node_receive)[4:] * (city_congestion - 4) / city_congestion
-node_uls_flow[node_uls_flow < 0] = 0
-node_uls_flow_txt = list(map(lambda x: '%.1f'%x, node_uls_flow))
+city_uls_flow = city_send + city_receive
+city_uls_flow = city_uls_flow[4:]
+node_uls_flow_txt = list(map(lambda x: '%.1f'%x, city_uls_flow))
 
 
 left = 0
 up = 0
 scale = 1
+city_point_size = 50
+node_point_size = 50
 
-
-subp.scatter(x=(source_x - left) * scale, y=(source_y - up) * scale, c='r', marker='s')
-subp.scatter(x=(city_x - left) * scale, y=(city_y - up) * scale, c=city_congestion, vmin=0, vmax=10, marker='s')
+subp.scatter(x=(source_x - left) * scale, y=(source_y - up) * scale, c='r', marker='o', s = city_point_size, alpha = 0.7)
+subp.scatter(x=(city_x - left) * scale, y=(city_y - up) * scale, c=city_uls_flow, vmin=min(city_uls_flow), vmax=max(city_uls_flow), marker='s', s = city_point_size, alpha = 0.7)
 
 # for i in range(len(node_uls_flow_txt)):
 #     _x, _y = city_x[i]-500, city_y[i]+200
-    # subp.text(_x, _y, node_uls_flow_txt[i])
+#     subp.text(_x, _y, node_uls_flow_txt[i])
 
-with open('../data/kmeansresult/k_clusters_result35.txt', 'r') as f:
+with open('../data/kmeansresult/k_clusters_result_91950.txt', 'r') as f:
     pset = set()
     clusters = {}
 
@@ -131,14 +133,17 @@ for cid, clu in clusters.items():
     else:
         color = 'b'
 
-    cir = Circle(xy = clu['point'], radius = min(clu['maxdist'], 3000), fill = False, ls = 'dashed', color = color)
+    cir = Circle(xy = clu['point'], radius = max(min(clu['maxdist'], 3000), 500), fill = False, ls = 'dashed', color = color)
     # cir = Circle(xy = clu['point'], radius = 3000, fill = False, ls = 'dashed')
 
     subp.add_patch(cir)
+    subp.scatter(clu['point'][0], clu['point'][1], alpha=0.3, marker='*', s=node_point_size, color = color)
+
+
+# subp.legend()
 
 plt.xlim(x_min, x_max)
 plt.ylim(y_min, y_max)
-# subp.colorbar(fraction=0.05, pad=-0.05, shrink=0.6)
 plt.show()
 
 # for i in range(5):
