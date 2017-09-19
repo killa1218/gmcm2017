@@ -1,0 +1,653 @@
+[
+  {
+    "node_id": 1,
+    "node_status": 1,
+    "node_axis": [
+      139226.07,
+      155782.46
+    ],
+    "node_capacity": 3939.0680947,
+    "node_cost": 4109.58904109589,
+    "links": [
+      {
+        "endnode": 19,
+        "distance": 842.832046375438,
+        "edgeod": 1319.9650000000004,
+        "cost_travel": 1112.5088020939554,
+        "cost_tunnel": 6927.386682537847
+      },
+      {
+        "endnode": 20,
+        "distance": 3737.968240959926,
+        "edgeod": 196.51200000000003,
+        "cost_travel": 734.555614967517,
+        "cost_tunnel": 30723.026638026786
+      },
+      {
+        "endnode": 22,
+        "distance": 3670.83076229945,
+        "edgeod": 40.982,
+        "cost_travel": 150.43798630055605,
+        "cost_tunnel": 30171.211744926983
+      }
+    ]
+  },
+  {
+    "node_id": 2,
+    "node_status": 2,
+    "node_axis": [
+      166840.465,
+      164411.565
+    ],
+    "node_capacity": 1631.532261,
+    "node_cost": 2739.72602739726,
+    "links": [
+      {
+        "endnode": 11,
+        "distance": 11597.514924477611,
+        "edgeod": 1018.647,
+        "cost_travel": 11813.773785274347,
+        "cost_tunnel": 95322.04047515844
+      }
+    ]
+  },
+  {
+    "node_id": 3,
+    "node_status": 2,
+    "node_axis": [
+      144500.625714,
+      151379.85
+    ],
+    "node_capacity": 2240.3594204,
+    "node_cost": 2739.72602739726,
+    "links": [
+      {
+        "endnode": 13,
+        "distance": 2479.5102592083213,
+        "edgeod": 616.545,
+        "cost_travel": 1528.7296527635945,
+        "cost_tunnel": 20379.536377054694
+      }
+    ]
+  },
+  {
+    "node_id": 4,
+    "node_status": 1,
+    "node_axis": [
+      149178.405,
+      159143.045
+    ],
+    "node_capacity": 3678.11150217,
+    "node_cost": 4109.58904109589,
+    "links": [
+      {
+        "endnode": 5,
+        "distance": 529.0894147892259,
+        "edgeod": 796.5379999999999,
+        "cost_travel": 421.43982427738035,
+        "cost_tunnel": 4348.680121555281
+      },
+      {
+        "endnode": 11,
+        "distance": 6842.408339954682,
+        "edgeod": 118.131,
+        "cost_travel": 808.3005396071866,
+        "cost_tunnel": 56238.97265716177
+      },
+      {
+        "endnode": 15,
+        "distance": 2779.9916762825005,
+        "edgeod": 30.797,
+        "cost_travel": 85.61540365447217,
+        "cost_tunnel": 22849.246654376715
+      }
+    ]
+  },
+  {
+    "node_id": 5,
+    "node_status": 1,
+    "node_axis": [
+      148791.996,
+      158781.626
+    ],
+    "node_capacity": 3720.52969,
+    "node_cost": 4109.58904109589,
+    "links": [
+      {
+        "endnode": 6,
+        "distance": 3067.409346017575,
+        "edgeod": 1878.477,
+        "cost_travel": 5762.057906079057,
+        "cost_tunnel": 25211.58366589788
+      },
+      {
+        "endnode": 4,
+        "distance": 529.0894147892259,
+        "edgeod": 286.07,
+        "cost_travel": 151.35660888875384,
+        "cost_tunnel": 4348.680121555281
+      },
+      {
+        "endnode": 18,
+        "distance": 3856.651674393658,
+        "edgeod": 244.914,
+        "cost_travel": 944.5479881824483,
+        "cost_tunnel": 31698.506912824585
+      }
+    ]
+  },
+  {
+    "node_id": 6,
+    "node_status": 1,
+    "node_axis": [
+      147001.49,
+      156291.026
+    ],
+    "node_capacity": 3346.5766703,
+    "node_cost": 4109.58904109589,
+    "links": [
+      {
+        "endnode": 13,
+        "distance": 3817.7446309317334,
+        "edgeod": 594.5379999999999,
+        "cost_travel": 2269.7942573848904,
+        "cost_tunnel": 31378.722993959454
+      },
+      {
+        "endnode": 5,
+        "distance": 3067.409346017575,
+        "edgeod": 650.1269999999996,
+        "cost_travel": 1994.2056358983668,
+        "cost_tunnel": 25211.58366589788
+      },
+      {
+        "endnode": 14,
+        "distance": 4888.413041281067,
+        "edgeod": 106.626,
+        "cost_travel": 521.231928939635,
+        "cost_tunnel": 40178.73732559782
+      },
+      {
+        "endnode": 8,
+        "distance": 2482.152559618081,
+        "edgeod": 11.504000000000001,
+        "cost_travel": 28.554683045846406,
+        "cost_tunnel": 20401.253914669156
+      },
+      {
+        "endnode": 9,
+        "distance": 2532.1828815790936,
+        "edgeod": 72.74199999999999,
+        "cost_travel": 184.1960471718264,
+        "cost_tunnel": 20812.46204037611
+      }
+    ]
+  },
+  {
+    "node_id": 7,
+    "node_status": 2,
+    "node_axis": [
+      156555.413333,
+      162224.053333
+    ],
+    "node_capacity": 2582.1659366,
+    "node_cost": 2739.72602739726,
+    "links": [
+      {
+        "endnode": 11,
+        "distance": 1578.4226069677493,
+        "edgeod": 1393.1960000000001,
+        "cost_travel": 2199.0520623370408,
+        "cost_tunnel": 12973.336495625337
+      }
+    ]
+  },
+  {
+    "node_id": 8,
+    "node_status": 2,
+    "node_axis": [
+      149467.7875,
+      156010.9225
+    ],
+    "node_capacity": 2335.9017134,
+    "node_cost": 2739.72602739726,
+    "links": [
+      {
+        "endnode": 6,
+        "distance": 2482.152559618081,
+        "edgeod": 650.659,
+        "cost_travel": 1615.034902288541,
+        "cost_tunnel": 20401.253914669156
+      }
+    ]
+  },
+  {
+    "node_id": 9,
+    "node_status": 2,
+    "node_axis": [
+      144627.3725,
+      157171.66
+    ],
+    "node_capacity": 2102.5622348,
+    "node_cost": 2739.72602739726,
+    "links": [
+      {
+        "endnode": 6,
+        "distance": 2532.1828815790936,
+        "edgeod": 896.9930000000002,
+        "cost_travel": 2271.3503194962764,
+        "cost_tunnel": 20812.46204037611
+      }
+    ]
+  },
+  {
+    "node_id": 10,
+    "node_status": 1,
+    "node_axis": [
+      139713.185,
+      152586.615
+    ],
+    "node_capacity": 3122.5554935,
+    "node_cost": 4109.58904109589,
+    "links": [
+      {
+        "endnode": 19,
+        "distance": 2767.9621836666856,
+        "edgeod": 584.853,
+        "cost_travel": 1618.850987004012,
+        "cost_tunnel": 22750.374112328926
+      },
+      {
+        "endnode": 23,
+        "distance": 1579.8373991441117,
+        "edgeod": 619.2789999999997,
+        "cost_travel": 978.3601247045658,
+        "cost_tunnel": 12984.964924472151
+      }
+    ]
+  },
+  {
+    "node_id": 11,
+    "node_status": 1,
+    "node_axis": [
+      155808.73,
+      160833.4125
+    ],
+    "node_capacity": 3844.7617161,
+    "node_cost": 4109.58904109589,
+    "links": [
+      {
+        "endnode": 4,
+        "distance": 6842.408339954682,
+        "edgeod": 1773.883,
+        "cost_travel": 12137.63183330383,
+        "cost_tunnel": 56238.97265716177
+      },
+      {
+        "endnode": 2,
+        "distance": 11597.514924477611,
+        "edgeod": 55.19199999999999,
+        "cost_travel": 640.0900437117682,
+        "cost_tunnel": 95322.04047515844
+      },
+      {
+        "endnode": 7,
+        "distance": 1578.4226069677493,
+        "edgeod": 99.03599999999997,
+        "cost_travel": 156.320661303658,
+        "cost_tunnel": 12973.336495625337
+      },
+      {
+        "endnode": 17,
+        "distance": 4623.405603262538,
+        "edgeod": 3.7849999999999997,
+        "cost_travel": 17.499590208348703,
+        "cost_tunnel": 38000.59399941812
+      },
+      {
+        "endnode": 25,
+        "distance": 9255.725178763629,
+        "edgeod": 51.11,
+        "cost_travel": 473.06011388660903,
+        "cost_tunnel": 76074.45352408462
+      }
+    ]
+  },
+  {
+    "node_id": 12,
+    "node_status": 1,
+    "node_axis": [
+      142466.438,
+      152947.768
+    ],
+    "node_capacity": 3686.7016648,
+    "node_cost": 4109.58904109589,
+    "links": [
+      {
+        "endnode": 23,
+        "distance": 1213.246422417105,
+        "edgeod": 1024.811,
+        "cost_travel": 1243.3482794036956,
+        "cost_tunnel": 9971.888403428258
+      },
+      {
+        "endnode": 13,
+        "distance": 1842.9001445645285,
+        "edgeod": 728.4769999999997,
+        "cost_travel": 1342.5103686119337,
+        "cost_tunnel": 15147.124475872837
+      }
+    ]
+  },
+  {
+    "node_id": 13,
+    "node_status": 1,
+    "node_axis": [
+      144087.338,
+      153824.674
+    ],
+    "node_capacity": 3984.4496682,
+    "node_cost": 4109.58904109589,
+    "links": [
+      {
+        "endnode": 12,
+        "distance": 1842.9001445645285,
+        "edgeod": 936.3749999999999,
+        "cost_travel": 1725.6456228666102,
+        "cost_tunnel": 15147.124475872837
+      },
+      {
+        "endnode": 6,
+        "distance": 3817.7446309317334,
+        "edgeod": 890.2099999999999,
+        "cost_travel": 3398.594447901738,
+        "cost_tunnel": 31378.722993959454
+      },
+      {
+        "endnode": 3,
+        "distance": 2479.5102592083213,
+        "edgeod": 37.767,
+        "cost_travel": 93.64366395952068,
+        "cost_tunnel": 20379.536377054694
+      },
+      {
+        "endnode": 16,
+        "distance": 2816.0957349298315,
+        "edgeod": 62.143,
+        "cost_travel": 175.00063725574452,
+        "cost_tunnel": 23145.992341889025
+      }
+    ]
+  },
+  {
+    "node_id": 14,
+    "node_status": 1,
+    "node_axis": [
+      150772.35,
+      153180.206667
+    ],
+    "node_capacity": 3361.1091686,
+    "node_cost": 4109.58904109589,
+    "links": [
+      {
+        "endnode": 6,
+        "distance": 4888.413041281067,
+        "edgeod": 1232.862,
+        "cost_travel": 6026.738678899859,
+        "cost_tunnel": 40178.73732559782
+      },
+      {
+        "endnode": 24,
+        "distance": 4125.634428115801,
+        "edgeod": 56.206,
+        "cost_travel": 231.88540866667668,
+        "cost_tunnel": 33909.32406670521
+      }
+    ]
+  },
+  {
+    "node_id": 15,
+    "node_status": 2,
+    "node_axis": [
+      151512.095,
+      160653.755
+    ],
+    "node_capacity": 1968.2509305,
+    "node_cost": 2739.72602739726,
+    "links": [
+      {
+        "endnode": 4,
+        "distance": 2779.9916762825005,
+        "edgeod": 578.8510000000001,
+        "cost_travel": 1609.200961807802,
+        "cost_tunnel": 22849.246654376715
+      }
+    ]
+  },
+  {
+    "node_id": 16,
+    "node_status": 2,
+    "node_axis": [
+      146866.235,
+      153368.465
+    ],
+    "node_capacity": 1733.9490429,
+    "node_cost": 2739.72602739726,
+    "links": [
+      {
+        "endnode": 13,
+        "distance": 2816.0957349298315,
+        "edgeod": 1006.6700000000001,
+        "cost_travel": 2834.8790934818135,
+        "cost_tunnel": 23145.992341889025
+      }
+    ]
+  },
+  {
+    "node_id": 17,
+    "node_status": 2,
+    "node_axis": [
+      156840.93,
+      165340.123333
+    ],
+    "node_capacity": 2482.834209,
+    "node_cost": 2739.72602739726,
+    "links": [
+      {
+        "endnode": 11,
+        "distance": 4623.405603262538,
+        "edgeod": 759.3299999999999,
+        "cost_travel": 3510.6905767253425,
+        "cost_tunnel": 38000.59399941812
+      }
+    ]
+  },
+  {
+    "node_id": 18,
+    "node_status": 2,
+    "node_axis": [
+      145069.655714,
+      159790.558571
+    ],
+    "node_capacity": 2967.4129458,
+    "node_cost": 2739.72602739726,
+    "links": [
+      {
+        "endnode": 5,
+        "distance": 3856.651674393658,
+        "edgeod": 1504.732,
+        "cost_travel": 5803.227187313718,
+        "cost_tunnel": 31698.506912824585
+      }
+    ]
+  },
+  {
+    "node_id": 19,
+    "node_status": 1,
+    "node_axis": [
+      138668.926667,
+      155150.038333
+    ],
+    "node_capacity": 3986.4378957,
+    "node_cost": 4109.58904109589,
+    "links": [
+      {
+        "endnode": 1,
+        "distance": 842.832046375438,
+        "edgeod": 350.93999999999994,
+        "cost_travel": 295.7834783549962,
+        "cost_tunnel": 6927.386682537847
+      },
+      {
+        "endnode": 10,
+        "distance": 2767.9621836666856,
+        "edgeod": 1191.8229999999999,
+        "cost_travel": 3298.92099362418,
+        "cost_tunnel": 22750.374112328926
+      }
+    ]
+  },
+  {
+    "node_id": 20,
+    "node_status": 1,
+    "node_axis": [
+      137906.275,
+      159279.68
+    ],
+    "node_capacity": 3850.5191289,
+    "node_cost": 4109.58904109589,
+    "links": [
+      {
+        "endnode": 1,
+        "distance": 3737.968240959926,
+        "edgeod": 2066.059,
+        "cost_travel": 7722.862925949424,
+        "cost_tunnel": 30723.026638026786
+      }
+    ]
+  },
+  {
+    "node_id": 21,
+    "node_status": 1,
+    "node_axis": [
+      141757.556,
+      150474.508
+    ],
+    "node_capacity": 3379.0805048,
+    "node_cost": 4109.58904109589,
+    "links": [
+      {
+        "endnode": 23,
+        "distance": 2515.5561944284386,
+        "edgeod": 902.3950000000001,
+        "cost_travel": 2270.0253320712513,
+        "cost_tunnel": 20675.80433776799
+      }
+    ]
+  },
+  {
+    "node_id": 22,
+    "node_status": 2,
+    "node_axis": [
+      141676.6,
+      158515.572
+    ],
+    "node_capacity": 2799.4187748,
+    "node_cost": 2739.72602739726,
+    "links": [
+      {
+        "endnode": 1,
+        "distance": 3670.83076229945,
+        "edgeod": 1463.9890000000003,
+        "cost_travel": 5374.05585686801,
+        "cost_tunnel": 30171.211744926983
+      }
+    ]
+  },
+  {
+    "node_id": 23,
+    "node_status": 1,
+    "node_axis": [
+      141253.223333,
+      152938.99
+    ],
+    "node_capacity": 3056.337668,
+    "node_cost": 4109.58904109589,
+    "links": [
+      {
+        "endnode": 10,
+        "distance": 1579.8373991441117,
+        "edgeod": 831.2539999999999,
+        "cost_travel": 1313.2461573881392,
+        "cost_tunnel": 12984.964924472151
+      },
+      {
+        "endnode": 12,
+        "distance": 1213.246422417105,
+        "edgeod": 765.3949999999999,
+        "cost_travel": 928.6127454859399,
+        "cost_tunnel": 9971.888403428258
+      },
+      {
+        "endnode": 21,
+        "distance": 2515.5561944284386,
+        "edgeod": 90.90800000000002,
+        "cost_travel": 228.68418252310056,
+        "cost_tunnel": 20675.80433776799
+      }
+    ]
+  },
+  {
+    "node_id": 24,
+    "node_status": 1,
+    "node_axis": [
+      147690.961429,
+      150436.868571
+    ],
+    "node_capacity": 3994.7201935,
+    "node_cost": 4109.58904109589,
+    "links": [
+      {
+        "endnode": 14,
+        "distance": 4125.634428115801,
+        "edgeod": 815.092,
+        "cost_travel": 3362.771617281764,
+        "cost_tunnel": 33909.32406670521
+      }
+    ]
+  },
+  {
+    "node_id": 25,
+    "node_status": 2,
+    "node_axis": [
+      163388.903333,
+      166144.666667
+    ],
+    "node_capacity": 2445.6269281,
+    "node_cost": 2739.72602739726,
+    "links": [
+      {
+        "endnode": 11,
+        "distance": 9255.725178763629,
+        "edgeod": 693.0449999999998,
+        "cost_travel": 6414.634056516237,
+        "cost_tunnel": 76074.45352408462
+      }
+    ]
+  },
+  {
+    "maxtunnelod": 2066.059
+  },
+  {
+    "devicecost": 87671.23287671234
+  },
+  {
+    "travelcost": 109823.51957573199
+  },
+  {
+    "tunnelcost": 702275.224885716
+  },
+  {
+    "allcost": 899769.9773381604
+  }
+]
