@@ -1,9 +1,12 @@
+#!/usr/bin/python3
+#coding: utf-8
+
 import math
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.font_manager as fm
 from matplotlib.patches import Circle
 from matplotlib.colorbar import Colorbar as cb
-from matplotlib.collections import PatchCollection
 
 columns = ['zone no.', 'zone area(km^2)', 'zone area(m^2)', 'center x(m)', 'center y(m)', 'congestion']
 
@@ -36,7 +39,7 @@ class Node:
 class NodeGroup:
     def __init__(self, arr):
         self.arr = arr
-    
+
     def get_pos(self):
         x_arr = []
         y_arr = []
@@ -69,8 +72,9 @@ fig, subp = plt.subplots()
 # bgimg = plt.imread('../map.jpg')
 # subp.imshow(bgimg)
 
-plt.rcParams["figure.figsize"] = [(x_max - x_min)/2000,(y_max - y_min)/2000]
-# plt.rcParams["figure.figsize"] = [(x_max - x_min),(y_max - y_min)]
+plt.rcParams["figure.figsize"] = [(x_max - x_min) / 2000, (y_max - y_min) / 2000]
+plt.rcParams['font.sans-serif'] = ['SimHei']
+msyhfont = fm.FontProperties(fname='font/msyh.ttf')
 
 source_x, source_y = source_nodes.get_pos()
 city_x, city_y = city_nodes.get_pos()
@@ -184,18 +188,19 @@ if plot_cluster:
         else:
             color = 'b'
 
-        cir = Circle(xy = clu['point'], radius = max(min(clu['maxdist'], 3000), 500), fill = False, ls = 'dashed', color = color)
-        # cir = Circle(xy = clu['point'], radius = 3000, fill = False, ls = 'dashed')
+        cir = Circle(xy = clu['point'], radius = max(min(clu['maxdist'], 3000), 500), fill = False, ls = 'dashed',
+                     color = color, alpha = 0.7)
 
         subp.add_patch(cir)
         subp.scatter(clu['point'][0], clu['point'][1], alpha=0.3, marker='*', s=node_point_size, color = color)
 
-    plt.title('Number: {}, Allcost: {}'.format(num, allcost))
+    plt.title(u'你好Number: {}, Allcost: {}'.format(num, allcost), fontsize = 16, fontproperties=msyhfont)
 
 # subp.legend()
 
 plt.xlim(x_min, x_max)
 plt.ylim(y_min, y_max)
+
 plt.show()
 
 # for i in range(5):
