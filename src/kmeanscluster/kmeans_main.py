@@ -13,7 +13,7 @@ def loadDataset(infile):
 
 
 def output(k, clf, data_X, data_od):
-    outname = "../../data/kmeansresult/k_clusters_result" + str(k) + ".txt"
+    outname = "../../data/kmeansresult/k_clusters_result_919" + str(k) + ".txt"
     fw = codecs.open(outname, 'w')
     cents = clf._centroids
     labels = clf._labels
