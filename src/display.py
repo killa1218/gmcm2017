@@ -91,53 +91,93 @@ node_point_size = 50
 subp.scatter(x=(source_x - left) * scale, y=(source_y - up) * scale, c='r', marker='o', s = city_point_size, alpha = 0.7)
 subp.scatter(x=(city_x - left) * scale, y=(city_y - up) * scale, c=city_uls_flow, vmin=min(city_uls_flow), vmax=max(city_uls_flow), marker='s', s = city_point_size, alpha = 0.7)
 
-# for i in range(len(node_uls_flow_txt)):
-#     _x, _y = city_x[i]-500, city_y[i]+200
-#     subp.text(_x, _y, node_uls_flow_txt[i])
+plot_ug_flow = True
+plot_cluster = True
+plot_link = False
 
-with open('../data/kmeansresult/k_clusters_result_91950.txt', 'r') as f:
-    pset = set()
-    clusters = {}
 
-    for line in f.readlines():
-        center = line.split('\t')[0] # num:x,y
-        cid, p = center.split(':') # x,y
+if plot_ug_flow:
+    for i in range(len(node_uls_flow_txt)):
+        _x, _y = city_x[i]-500, city_y[i]+200
+        subp.text(_x, _y, node_uls_flow_txt[i])
 
-        cluster = clusters.setdefault(cid, {})
 
-        if ',' in p:
-            contain = line.split('\t')[1]
-            cityidx, cp = contain.split(':')
-            x, y = p.split(',')
-            point = (float(x), float(y))
-            pset.add(point)
+if plot_cluster:
+    num = 56
+    with open('../data/kmeansresult/k_clusters_result_919{}.txt'.format(num), 'r') as f:
+        pset = set()
+        clusters = {}
 
-            cluster['point'] = point
-            containlist = cluster.setdefault('contain', [])
+        for line in f.readlines():
+            center = line.split('\t')[0] # num:x,y
+            cid, p = center.split(':') # x,y
 
-            x, y = cp.split(',')
-            cpoint = (float(x), float(y))
-            containlist.append({'idx': cityidx, 'point': cpoint})
+            cluster = clusters.setdefault(cid, {})
 
-            curmax = cluster.setdefault('maxdist', 0)
+            if ',' in p:
+                contain = line.split('\t')[1]
+                cityidx, cp = contain.split(':')
+                x, y = p.split(',')
+                point = (float(x), float(y))
+                pset.add(point)
 
-            cluster['maxdist'] = max(curmax, distance(point, cpoint))
+                cluster['point'] = point
+                containlist = cluster.setdefault('contain', [])
+
+                x, y = cp.split(',')
+                cpoint = (float(x), float(y))
+                containlist.append({'idx': cityidx, 'point': cpoint})
+
+                curmax = cluster.setdefault('maxdist', 0)
+
+                cluster['maxdist'] = max(curmax, distance(point, cpoint))
+            else:
+                cluster['quantity'] = float(p)
+
+    patches = []
+    for cid, clu in clusters.items():
+        if clu['quantity'] > 3000:
+            color = 'r'
         else:
-            cluster['quantity'] = float(p)
+            color = 'b'
 
+        cir = Circle(xy = clu['point'], radius = max(min(clu['maxdist'], 3000), 500), fill = False, ls = 'dashed', color = color)
+        # cir = Circle(xy = clu['point'], radius = 3000, fill = False, ls = 'dashed')
 
-patches = []
-for cid, clu in clusters.items():
-    if clu['quantity'] > 3000:
-        color = 'r'
-    else:
-        color = 'b'
+        subp.add_patch(cir)
+        subp.scatter(clu['point'][0], clu['point'][1], alpha=0.3, marker='*', s=node_point_size, color = color)
 
-    cir = Circle(xy = clu['point'], radius = max(min(clu['maxdist'], 3000), 500), fill = False, ls = 'dashed', color = color)
-    # cir = Circle(xy = clu['point'], radius = 3000, fill = False, ls = 'dashed')
+    plt.title(num)
 
-    subp.add_patch(cir)
-    subp.scatter(clu['point'][0], clu['point'][1], alpha=0.3, marker='*', s=node_point_size, color = color)
+if plot_link:
+    import json
+    with open('../data/linksresult/campuslink.json', 'r') as cf,\
+        open('../data/linksresult/links.json', 'r') as lf:
+        campuslink = json.load(cf)
+        links = json.load(lf)
+
+        for clink in campuslink:
+            cx = clink.campus_axis[0]
+            cy = clink.campus_axis[1]
+            ex = clink.endnode_axis[0]
+            ey = clink.endnode_axis[1]
+
+            if clink.campus_capacity > 7200:
+                lineweight = 4
+            else:
+                lineweight = 2
+
+            subp.plot(x = [cx, ex], y = [cy, ey], color = 'k', lw = lineweight)
+
+        for link in links:
+            lx = link.node_axis[0]
+            ly = link.node_axis[1]
+
+            for endnode in link.links:
+                elx = endnode.endnode_axis[0]
+                ely = endnode.endnode_axis[1]
+
+                subp.plot(x = [lx, elx], y = [ly, ely], color = 'k', lw = 2)
 
 
 # subp.legend()
