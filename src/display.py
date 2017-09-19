@@ -92,13 +92,19 @@ scale = 1
 city_point_size = 50
 node_point_size = 50
 
-subp.scatter(x=(source_x - left) * scale, y=(source_y - up) * scale, c='r', marker='o', s = city_point_size, alpha = 0.7)
-subp.scatter(x=(city_x - left) * scale, y=(city_y - up) * scale, c=city_uls_flow, vmin=min(city_uls_flow), vmax=max(city_uls_flow), marker='s', s = city_point_size, alpha = 0.7)
+plot_ug_flow = False # 城市地下流量
+plot_cluster = True # 节点
+plot_link = True # 边
+plot_city = False # 城市
+plot_campus = True # 园区
+plot_circle = False # 节点区域(虚线的圆)
+title = u'题目' # 图的题目,可中文,记得别把u删掉
 
-plot_ug_flow = False
-plot_cluster = True
-plot_link = True
+if plot_campus:
+    subp.scatter(x=(source_x - left) * scale, y=(source_y - up) * scale, c='r', marker='o', s = city_point_size, alpha = 0.7)
 
+if plot_city:
+    subp.scatter(x=(city_x - left) * scale, y=(city_y - up) * scale, c=city_uls_flow, vmin=min(city_uls_flow), vmax=max(city_uls_flow), marker='s', s = city_point_size, alpha = 0.7)
 
 if plot_ug_flow:
     for i in range(len(node_uls_flow_txt)):
@@ -188,13 +194,16 @@ if plot_cluster:
         else:
             color = 'b'
 
-        cir = Circle(xy = clu['point'], radius = max(min(clu['maxdist'], 3000), 500), fill = False, ls = 'dashed',
-                     color = color, alpha = 0.7)
+        if plot_circle:
+            cir = Circle(xy = clu['point'], radius = max(min(clu['maxdist'], 3000), 500), fill = False, ls = 'dashed',
+                         color = color, alpha = 0.7)
+            subp.add_patch(cir)
 
-        subp.add_patch(cir)
         subp.scatter(clu['point'][0], clu['point'][1], alpha=0.3, marker='*', s=node_point_size, color = color)
+        # subp.text(clu['point'][0], clu['point'][1], cid)
 
-    plt.title(u'你好Number: {}, Allcost: {}'.format(num, allcost), fontsize = 16, fontproperties=msyhfont)
+    # plt.title(u'你好Number: {}, Allcost: {}'.format(num, allcost), fontsize = 16, fontproperties=msyhfont)
+    plt.title(title, fontsize = 16, fontproperties=msyhfont)
 
 # subp.legend()
 
