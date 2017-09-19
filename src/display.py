@@ -95,10 +95,10 @@ node_point_size = 50
 plot_ug_flow = False # 城市地下流量
 plot_cluster = True # 节点
 plot_link = True # 边
-plot_city = False # 城市
+plot_city = True # 城市
 plot_campus = True # 园区
-plot_circle = False # 节点区域(虚线的圆)
-title = u'题目' # 图的题目,可中文,记得别把u删掉
+plot_circle = True # 节点区域(虚线的圆)
+title = u'' # 图的题目,可中文,记得别把u删掉
 
 if plot_campus:
     subp.scatter(x=(source_x - left) * scale, y=(source_y - up) * scale, c='r', marker='o', s = city_point_size, alpha = 0.7)
