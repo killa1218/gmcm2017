@@ -33,7 +33,7 @@ def getlinks(campusid,cpoint,ctood,cfromod,nodedict,linksinfo):
             continue
         nowid = item["node_id"]
         ccdistance = _calEDist(cpoint,item["node_axis"])
-        if ccdistance > mindistance:
+        if ccdistance > mindistance or item["node_status"] == 2:
             continue
         odneedto = allto - getpointod(item["node_id"],nodedict,ctood)
         odneedfrom = allfrom - getpointod(nowid,nodedict,cfromod)
