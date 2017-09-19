@@ -112,6 +112,8 @@ if plot_city:
                                    vmin=min(city_uls_flow), vmax=max(city_uls_flow), marker='s',
                                    s = city_point_size, alpha = 0.7, label = u'地区')
     hdls.append(city_legend_hdl)
+    plt.colorbar(city_legend_hdl, fraction=0.05, pad=-0.05, shrink=0.5)
+
 
 if plot_ug_flow:
     for i in range(len(node_uls_flow_txt)):
@@ -268,6 +270,7 @@ plt.title(title, fontsize = 200, fontproperties=msyhfont)
 # subp.xaxis.set_major_formatter(formatter)
 plt.xticks([i for i in range(130000, 170001, 5000)], [i for i in range(130, 171, 5)])
 plt.yticks([i for i in range(145000, 165001, 5000)], [i for i in range(145, 166, 5)])
+
 subp.legend(handles = hdls)
 
 plt.xlim(x_min, x_max)
