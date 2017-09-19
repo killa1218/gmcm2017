@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 import matplotlib.font_manager as fm
 from matplotlib.patches import Circle
 from matplotlib.colorbar import Colorbar as cb
+from matplotlib.ticker import Formatter
 
 columns = ['zone no.', 'zone area(km^2)', 'zone area(m^2)', 'center x(m)', 'center y(m)', 'congestion']
 
@@ -95,16 +96,24 @@ node_point_size = 50
 plot_ug_flow = False # 城市地下流量
 plot_cluster = True # 节点
 plot_link = True # 边
-plot_city = False # 城市
+plot_city = True # 城市
 plot_campus = True # 园区
-plot_circle = False # 节点区域(虚线的圆)
-title = u'题目' # 图的题目,可中文,记得别把u删掉
+plot_circle = True # 节点区域(虚线的圆)
+title = u'' # 图的题目,可中文,记得别把u删掉
 
+hdls = []
 if plot_campus:
-    subp.scatter(x=(source_x - left) * scale, y=(source_y - up) * scale, c='r', marker='o', s = city_point_size, alpha = 0.7)
+    camp_legend_hdl = subp.scatter(x=(source_x - left) * scale, y=(source_y - up) * scale, c='r', marker='o',
+                                   s = city_point_size, alpha = 0.7, label = u'物流园区')
+    hdls.append(camp_legend_hdl)
 
 if plot_city:
-    subp.scatter(x=(city_x - left) * scale, y=(city_y - up) * scale, c=city_uls_flow, vmin=min(city_uls_flow), vmax=max(city_uls_flow), marker='s', s = city_point_size, alpha = 0.7)
+    city_legend_hdl = subp.scatter(x=(city_x - left) * scale, y=(city_y - up) * scale, c=city_uls_flow,
+                                   vmin=min(city_uls_flow), vmax=max(city_uls_flow), marker='s',
+                                   s = city_point_size, alpha = 0.7, label = u'地区')
+    hdls.append(city_legend_hdl)
+    plt.colorbar(city_legend_hdl, fraction=0.05, pad=-0.05, shrink=0.5)
+
 
 if plot_ug_flow:
     for i in range(len(node_uls_flow_txt)):
@@ -121,8 +130,10 @@ if plot_link:
             open('../data/linksresult/links_{}.json'.format(num), 'r') as lf:
         campuslink = json.load(cf)
         links = json.load(lf)
+        hdl_tube_2_added = False
+        hdl_tube_4_added = False
 
-        for clink in campuslink:
+        for _, clink in enumerate(campuslink):
             if 'campus_axis' not in clink:
                 allcost += clink['allcost']
                 continue
@@ -134,10 +145,20 @@ if plot_link:
 
             if clink['campus_capacity'] > 7200:
                 lineweight = 4
+                label = u'双向四轨'
             else:
                 lineweight = 1
+                label = u'双向双轨'
 
-            subp.plot([cx, ex], [cy, ey], color = 'k', lw = lineweight, alpha = 0.5)
+            tube_legend_hdl = subp.plot([cx, ex], [cy, ey], color = 'k', lw = lineweight, alpha = 0.5,
+                                        label = label)
+
+            if not hdl_tube_2_added and lineweight == 1:
+                hdls.append(tube_legend_hdl[0])
+                hdl_tube_2_added = True
+            elif not hdl_tube_4_added and lineweight == 4:
+                hdls.append(tube_legend_hdl[0])
+                hdl_tube_4_added = True
 
         for link in links:
             if 'node_axis' not in link:
@@ -153,7 +174,22 @@ if plot_link:
                 elx = endnode['endnode_axis'][0]
                 ely = endnode['endnode_axis'][1]
 
-                subp.plot([lx, elx], [ly, ely], color = 'k', lw = 1, alpha = 0.5)
+                if endnode['edgeod'] > 7200:
+                    lineweight = 4
+                    label = u'双向四轨'
+                else:
+                    lineweight = 1
+                    label = u'双向双轨'
+
+                tube_legend_hdl = subp.plot([lx, elx], [ly, ely], color = 'k', lw = lineweight, alpha = 0.5,
+                                            label = label)
+
+                if not hdl_tube_2_added and lineweight == 1:
+                    hdls.append(tube_legend_hdl[0])
+                    hdl_tube_2_added = True
+                elif not hdl_tube_4_added and lineweight == 4:
+                    hdls.append(tube_legend_hdl[0])
+                    hdl_tube_4_added = True
 
 
 if plot_cluster:
@@ -188,24 +224,54 @@ if plot_cluster:
                 cluster['quantity'] = float(p)
 
     patches = []
+    hdl_circle_1_added = False
+    hdl_circle_2_added = False
+    hdl_node_1_added = False
+    hdl_node_2_added = False
     for cid, clu in clusters.items():
         if clu['quantity'] > 3000:
             color = 'r'
+            clabel = u'一级节点服务区域'
+            nlabel = u'一级节点'
+            linestyle = 'dashed'
         else:
             color = 'b'
+            clabel = u'二级节点服务区域'
+            nlabel = u'二级节点'
+            linestyle = 'dashdot'
 
         if plot_circle:
-            cir = Circle(xy = clu['point'], radius = max(min(clu['maxdist'], 3000), 500), fill = False, ls = 'dashed',
-                         color = color, alpha = 0.7)
-            subp.add_patch(cir)
+            cir = Circle(xy = clu['point'], radius = max(min(clu['maxdist'], 3000), 500), fill = False, ls = linestyle,
+                         color = color, alpha = 0.7, label = clabel)
+            circle_legend_hdl = subp.add_patch(cir)
 
-        subp.scatter(clu['point'][0], clu['point'][1], alpha=0.3, marker='*', s=node_point_size, color = color)
+            if not hdl_circle_1_added and color == 'r':
+                hdls.append(circle_legend_hdl)
+                hdl_circle_1_added = True
+            elif not hdl_circle_2_added and color == 'b':
+                hdls.append(circle_legend_hdl)
+                hdl_circle_2_added = True
+
+        node_legend_hdl = subp.scatter(clu['point'][0], clu['point'][1], alpha=0.3, marker='*', s=node_point_size, color = color, label = nlabel)
         # subp.text(clu['point'][0], clu['point'][1], cid)
 
-    # plt.title(u'你好Number: {}, Allcost: {}'.format(num, allcost), fontsize = 16, fontproperties=msyhfont)
-    plt.title(title, fontsize = 16, fontproperties=msyhfont)
+        if not hdl_node_1_added and color == 'r':
+            hdls.append(node_legend_hdl)
+            hdl_node_1_added = True
+        elif not hdl_node_2_added and color == 'b':
+            hdls.append(node_legend_hdl)
+            hdl_node_2_added = True
 
-# subp.legend()
+# plt.title(u'你好Number: {}, Allcost: {}'.format(num, allcost), fontsize = 16, fontproperties=msyhfont)
+plt.title(title, fontsize = 200, fontproperties=msyhfont)
+
+# formatter = Formatter()
+# formatter.fix_minus('7')
+# subp.xaxis.set_major_formatter(formatter)
+plt.xticks([i for i in range(130000, 170001, 5000)], [i for i in range(130, 171, 5)])
+plt.yticks([i for i in range(145000, 165001, 5000)], [i for i in range(145, 166, 5)])
+
+subp.legend(handles = hdls)
 
 plt.xlim(x_min, x_max)
 plt.ylim(y_min, y_max)
