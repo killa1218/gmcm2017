@@ -63,7 +63,9 @@ plt.rcParams["figure.figsize"] = [(x_max - x_min) / 4000, (y_max - y_min) / 4000
 plt.rcParams['font.sans-serif'] = ['SimHei']
 plt.rcParams['xtick.direction'] = 'in'
 plt.rcParams['ytick.direction'] = 'in'
-plt.rcParams['axes.labelsize'] = 'small'
+plt.rcParams['xtick.labelsize'] = 'xx-large'
+plt.rcParams['ytick.labelsize'] = 'xx-large'
+plt.rcParams['axes.labelsize'] = 'x-large'
 msyhfont = fm.FontProperties(fname='font/msyh.ttf')
 
 # plt.ion()
@@ -88,12 +90,12 @@ scale = 1
 city_point_size = 50
 node_point_size = 50
 
-plot_ug_flow = False # 城市地下流量
-plot_cluster = True # 节点
-plot_link = True # 边
+plot_ug_flow = True # 城市地下流量
+plot_cluster = False # 节点
+plot_link = False # 边
 plot_city = True # 城市
 plot_campus = True # 园区
-plot_circle = True # 节点区域(虚线的圆)
+plot_circle = False # 节点区域(虚线的圆)
 title = u'' # 图的题目,可中文,记得别把u删掉
 
 hdls = []
