@@ -1,71 +1,71 @@
 [
   {
-    "cost_tunnel": 89697.03232052083,
+    "campus_id": 1,
     "campus_axis": [
       139382.3437,
       146047.0951
     ],
+    "campus_capacity": 9225.772984194406,
+    "endnode": 2,
     "endnode_axis": [
       139713.185,
       152586.615
     ],
     "distance": 6.5478833593980195,
     "cost_travel": 122247.93880032423,
-    "campus_id": 1,
-    "campuscost": 211944.97112084506,
-    "endnode": 2,
-    "campus_capacity": 9225.772984194406
+    "cost_tunnel": 89697.03232052083,
+    "campuscost": 211944.97112084506
   },
   {
-    "cost_tunnel": 111925.42479496787,
+    "campus_id": 2,
     "campus_axis": [
       157688.4185,
       148489.031
     ],
+    "campus_capacity": 9116.87498723512,
+    "endnode": 11,
     "endnode_axis": [
       149971.33,
       151173.156667
     ],
     "distance": 8.170556010032653,
     "cost_travel": 155222.1702592735,
-    "campus_id": 2,
-    "campuscost": 267147.59505424136,
-    "endnode": 11,
-    "campus_capacity": 9116.87498723512
+    "cost_tunnel": 111925.42479496787,
+    "campuscost": 267147.59505424136
   },
   {
-    "cost_tunnel": 99998.89164242953,
+    "campus_id": 3,
     "campus_axis": [
       149441.1622,
       167278.6394
     ],
+    "campus_capacity": 9712.575204464438,
+    "endnode": 31,
     "endnode_axis": [
       149019.39,
       159990.915
     ],
     "distance": 7.299919089897356,
     "cost_travel": 134950.47106337102,
-    "campus_id": 3,
-    "campuscost": 234949.36270580057,
-    "endnode": 31,
-    "campus_capacity": 9712.575204464438
+    "cost_tunnel": 99998.89164242953,
+    "campuscost": 234949.36270580057
   },
   {
-    "cost_tunnel": 87550.79104166705,
+    "campus_id": 4,
     "campus_axis": [
       131764.713,
       162103.0925
     ],
+    "campus_capacity": 4156.326471992461,
+    "endnode": 24,
     "endnode_axis": [
       137382.932,
       159056.266
     ],
     "distance": 6.391207746041694,
     "cost_travel": 55293.11684545142,
-    "campus_id": 4,
-    "campuscost": 142843.90788711846,
-    "endnode": 24,
-    "campus_capacity": 4156.326471992461
+    "cost_tunnel": 87550.79104166705,
+    "campuscost": 142843.90788711846
   },
   {
     "allcost": 856885.8367680055

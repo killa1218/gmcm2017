@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# coding=utf8
+# coding=utf-8
 from __future__ import print_function
 
 from netcampus import build_campus_tube
