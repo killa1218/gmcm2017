@@ -1,10 +1,10 @@
-import pandas as pd
-import numpy as np
 import codecs
-from src.kmeanscluster.kmeans import KMeansClassifier
 from multiprocessing import Pool
-import matplotlib.pyplot as plt
-import time
+
+import numpy as np
+import pandas as pd
+
+from kmeans import KMeansClassifier
 
 
 def loadDataset(infile):
@@ -13,7 +13,7 @@ def loadDataset(infile):
 
 
 def output(k, clf, data_X, data_od):
-    outname = "../../data/kmeansresult/k_clusters_result_919" + str(k) + ".txt"
+    outname = "../../res/Question1/cluster/clusters_result_" + str(k) + ".txt"
     fw = codecs.open(outname, 'w')
     cents = clf._centroids
     labels = clf._labels
@@ -78,9 +78,9 @@ def kmeanshelper(n):
     tmpk = bi_search_k(data_X, data_od)
     print(tmpk, i)
 
-if __name__ == "__main__":
-    data_X = loadDataset(r"../../data/kmeansdata/input.txt")
-    data_od = loadDataset(r"../../data/kmeansdata/od.txt")
+def cluster():
+    data_X = loadDataset(r"../../data/area_coordinates.txt")
+    data_od = loadDataset(r"../../res/Question1/area_total_uls_flow.txt")
     mink = np.inf
 
     pool = Pool()
