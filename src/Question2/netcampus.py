@@ -6,7 +6,6 @@ from collections import defaultdict
 from heapq import *
 import json
 
-clustercnt = 42
 def loadDataset(infile):
     df = pd.read_csv(infile, sep = '\t', header = None, dtype = str, na_filter = False)
     return np.array(df).astype(np.float)
@@ -60,14 +59,18 @@ def getlinks(campusid,cpoint,ctood,cfromod,nodedict,linksinfo):
     tmpdict["campuscost"] = campuscost
     # print(usenode,mindistance)
     return  tmpdict
-if __name__ == "__main__":
-    campus_axis = loadDataset("../../data/kmeansdata/campus_axis.txt")
-    campus2citys = loadDataset("../../data/kmeansdata/campus2citys_od.txt")
-    citys2campus = loadDataset("../../data/kmeansdata/citys2campus_od.txt")
-    distance = loadDataset("../../data/kmeansdata/campus2citys_distance.txt")
-    with open("../../data/linksresult/links_{}.json".format(clustercnt), 'r') as f:
+
+
+def build_campus_tube(clustercnt = 42):
+    campus_axis = loadDataset("../../data/campus_coordinates.txt")
+
+    uls_od = np.loadtxt('../../res/Question1/uls_od.txt')
+    campus2citys = uls_od[:4, 4:]
+    citys2campus = uls_od[4:, :4].transpose()
+    distance = loadDataset("../../data/campus2areas_distance.txt")
+    with open("../../res/Question2/links_{}.json".format(clustercnt), 'r') as f:
         linksinfo = json.load(f)
-    with open("../../data/linksresult/node4citys_{}.json".format(clustercnt),'r') as f:
+    with open("../../res/Question2/node4citys_{}.json".format(clustercnt),'r') as f:
         nodedict = json.load(f)
     tmplist = []
     allcost = 0
@@ -77,7 +80,7 @@ if __name__ == "__main__":
         allcost += tmpdict["campuscost"]
     tmplist.append({"allcost":allcost})
     print(tmplist)
-    with open("../../data/linksresult/campuslink_{}.json".format(clustercnt),'w') as f:
+    with open("../../res/Question2/campuslink_{}.json".format(clustercnt),'w') as f:
         json.dump(tmplist,f,indent=2)
 
     # print(linksinfo)

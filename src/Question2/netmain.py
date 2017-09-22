@@ -6,7 +6,6 @@ from collections import defaultdict
 from heapq import *
 import json
 
-clustercnt = 42
 
 def loadDataset(infile):
     df = pd.read_csv(infile, sep = '\t', header = None, dtype = str, na_filter = False)
@@ -74,7 +73,7 @@ def getlinks(nodedict):
             # secondenodedict[connectfirst] = [(nodeid, minndist)]
     return firstnodedict,secondenodedict
 
-def prime(vertexs,deges):
+def prime(vertexs,edges):
     # print(vertexs)
     adjacent_vertex = defaultdict(list)
     for v1, v2, length in edges:
@@ -133,10 +132,10 @@ def getedgeod(startnode,root,alledges,nodedict,data_od_matrix):
             nodeuse.append(newnode)
     return  sumod
 
-def output(data_x,data_od,data_od_matrix,nodedict,firstnodedict,secondenodedict,mst):
+def output(data_x,data_od,data_od_matrix,nodedict,firstnodedict,secondenodedict,mst,clustercnt):
     outlist = []
     alledges = mst
-    f = open("../../data/linksresult/links_{}.json".format(clustercnt), 'w')
+    f = open("../../res/Question2/links_{}.json".format(clustercnt), 'w')
     for k,v in secondenodedict.items():
         alledges[k] = v
         alledges[v[0][0]].append((k,v[0][1]))
@@ -184,13 +183,15 @@ def output(data_x,data_od,data_od_matrix,nodedict,firstnodedict,secondenodedict,
     json.dump(outlist,f,indent = 2)
 
 
-if __name__ == "__main__":
-    data_x = loadDataset(r"../../data/kmeansdata/input.txt")
-    data_od = loadDataset(r"../../data/kmeansdata/od.txt")
-    nodedict = readdata(r"../../data/kmeansresult/k_clusters_result_919{}.txt".format(clustercnt))
-    with open("../../data/linksresult/node4citys_{}.json".format(clustercnt),'w') as f:
+def build_area_tube(clustercnt = 42):
+    data_x = loadDataset(r"../../data/area_coordinates.txt")
+    data_od = loadDataset(r"../../res/Question1/area_total_uls_flow.txt")
+    nodedict = readdata(r"../../res/Question1/cluster/k_clusters_result_{}.txt".format(clustercnt))
+    with open("../../res/Question2/node4citys_{}.json".format(clustercnt),'w') as f:
         json.dump(nodedict,f,indent = 2)
-    data_od_matrix = loadDataset(r"../../data/kmeansdata/odmatrix.txt")
+
+    uls_od = np.loadtxt('../../res/Question1/uls_od.txt')
+    data_od_matrix = uls_od[4:, 4:]
     # print(data_x)
     # print(data_od)
     # for k,v in nodedict.items():
@@ -206,4 +207,4 @@ if __name__ == "__main__":
     mst = prime(vertexs,edges)
     # print(mst)
     # print(firstnodedict,secondenodedict)
-    output(data_x,data_od,data_od_matrix,nodedict,firstnodedict,secondenodedict,mst)
+    output(data_x,data_od,data_od_matrix,nodedict,firstnodedict,secondenodedict,mst,clustercnt)
