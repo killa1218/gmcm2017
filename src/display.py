@@ -98,7 +98,7 @@ plot_cluster = True # 节点
 plot_link = True # 边
 plot_city = True # 城市
 plot_campus = True # 园区
-plot_circle = True # 节点区域(虚线的圆)
+plot_circle = False # 节点区域(虚线的圆)
 title = u'' # 图的题目,可中文,记得别把u删掉
 
 hdls = []
@@ -286,3 +286,4 @@ plt.show()
 #         mat.set_data(center_status)
 #     plt.pause(3)
 #     plt.draw()
+
