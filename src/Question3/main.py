@@ -2,7 +2,10 @@
 # coding=utf8
 from __future__ import print_function
 
-from ..common.display import visualize
+import sys
+sys.path.append('..')
+
+from common.display import visualize
 
 
 if __name__ == '__main__':

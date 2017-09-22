@@ -192,7 +192,7 @@ def plot_graph(links, idx):
     plt.xlim(x_min, x_max)
     plt.ylim(y_min, y_max)
 
-    plt.savefig('../../res/Question4/p{}.png'.format(idx + 1))
+    plt.savefig('../../res/Question4/f{}.png'.format(idx + 1))
 
     plt.show()
 
