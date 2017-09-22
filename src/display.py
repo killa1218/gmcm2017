@@ -6,13 +6,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.font_manager as fm
 from matplotlib.patches import Circle
-from matplotlib.colorbar import Colorbar as cb
-from matplotlib.ticker import Formatter
 
 columns = ['zone no.', 'zone area(km^2)', 'zone area(m^2)', 'center x(m)', 'center y(m)', 'congestion']
-
-# f = open('center_area.csv')
-# columns = f.readline().strip().split(',')
 
 ids = np.loadtxt('../data/idx2node.txt')
 
@@ -61,10 +56,17 @@ city_nodes = NodeGroup([Node(*x) for x in d[4:]])
 
 x_min, x_max = d[:, 3].min(), d[:, 3].max()
 y_min, y_max = d[:, 4].min(), d[:, 4].max()
-# print x_min, x_max, y_min, y_max
 x_min, x_max = int(x_min - 2000), int(x_max + 2000)
 y_min, y_max = int(y_min - 2000), int(y_max + 2000)
-# print x_min, x_max, y_min, y_max
+
+plt.rcParams["figure.figsize"] = [(x_max - x_min) / 4000, (y_max - y_min) / 4000]
+plt.rcParams['font.sans-serif'] = ['SimHei']
+plt.rcParams['xtick.direction'] = 'in'
+plt.rcParams['ytick.direction'] = 'in'
+plt.rcParams['xtick.labelsize'] = 'xx-large'
+plt.rcParams['ytick.labelsize'] = 'xx-large'
+plt.rcParams['axes.labelsize'] = 'x-large'
+msyhfont = fm.FontProperties(fname='font/msyh.ttf')
 
 # plt.ion()
 
@@ -73,14 +75,9 @@ fig, subp = plt.subplots()
 # bgimg = plt.imread('../map.jpg')
 # subp.imshow(bgimg)
 
-plt.rcParams["figure.figsize"] = [(x_max - x_min) / 2000, (y_max - y_min) / 2000]
-plt.rcParams['font.sans-serif'] = ['SimHei']
-msyhfont = fm.FontProperties(fname='font/msyh.ttf')
-
 source_x, source_y = source_nodes.get_pos()
 city_x, city_y = city_nodes.get_pos()
 city_congestion = city_nodes.get_congestion()
-
 
 city_uls_flow = city_send + city_receive
 city_uls_flow = city_uls_flow[4:]
@@ -93,9 +90,9 @@ scale = 1
 city_point_size = 50
 node_point_size = 50
 
-plot_ug_flow = False # 城市地下流量
-plot_cluster = True # 节点
-plot_link = True # 边
+plot_ug_flow = True # 城市地下流量
+plot_cluster = False # 节点
+plot_link = False # 边
 plot_city = True # 城市
 plot_campus = True # 园区
 plot_circle = False # 节点区域(虚线的圆)
@@ -262,12 +259,8 @@ if plot_cluster:
             hdls.append(node_legend_hdl)
             hdl_node_2_added = True
 
-# plt.title(u'你好Number: {}, Allcost: {}'.format(num, allcost), fontsize = 16, fontproperties=msyhfont)
 plt.title(title, fontsize = 200, fontproperties=msyhfont)
 
-# formatter = Formatter()
-# formatter.fix_minus('7')
-# subp.xaxis.set_major_formatter(formatter)
 plt.xticks([i for i in range(130000, 170001, 5000)], [i for i in range(130, 171, 5)])
 plt.yticks([i for i in range(145000, 165001, 5000)], [i for i in range(145, 166, 5)])
 
@@ -276,8 +269,12 @@ subp.legend(handles = hdls)
 plt.xlim(x_min, x_max)
 plt.ylim(y_min, y_max)
 
-plt.show()
+subp.set_xlabel('×1000', fontsize = 7)
+subp.set_ylabel('×1000', fontsize = 7)
+subp.xaxis.set_label_coords(1.0, -0.012)
+subp.yaxis.set_label_coords(-0.01, 1)
 
+<<<<<<< HEAD
 # for i in range(5):
 #     randd = np.random.random((100, 100))
 #     if i == 0:
@@ -287,3 +284,6 @@ plt.show()
 #     plt.pause(3)
 #     plt.draw()
 
+=======
+plt.show()
+>>>>>>> 922e8dbcea1fe4196f6a901aaf5ba3b1a52a58b0

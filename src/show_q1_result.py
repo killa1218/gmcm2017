@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-#coding: utf-8
+# coding: utf-8
 
 import math
 import numpy as np
@@ -11,12 +11,8 @@ from matplotlib.ticker import Formatter
 
 columns = ['zone no.', 'zone area(km^2)', 'zone area(m^2)', 'center x(m)', 'center y(m)', 'congestion']
 
-# f = open('center_area.csv')
-# columns = f.readline().strip().split(',')
-
 ids = np.loadtxt('../data/idx2node.txt')
 
-# row: a send b
 ug_flow_od = np.loadtxt('../data/ug_od.txt')
 receive_mat = ug_flow_od.transpose()
 
@@ -55,23 +51,15 @@ class NodeGroup:
             c_arr.append(c.c)
         return np.array(c_arr)
 
-
 source_nodes = NodeGroup([Node(*x) for x in d[:4]])
 city_nodes = NodeGroup([Node(*x) for x in d[4:]])
 
 x_min, x_max = d[:, 3].min(), d[:, 3].max()
 y_min, y_max = d[:, 4].min(), d[:, 4].max()
-# print x_min, x_max, y_min, y_max
 x_min, x_max = int(x_min - 2000), int(x_max + 2000)
 y_min, y_max = int(y_min - 2000), int(y_max + 2000)
-# print x_min, x_max, y_min, y_max
-
-# plt.ion()
 
 fig, subp = plt.subplots()
-
-# bgimg = plt.imread('../map.jpg')
-# subp.imshow(bgimg)
 
 plt.rcParams["figure.figsize"] = [(x_max - x_min) / 2000, (y_max - y_min) / 2000]
 plt.rcParams['font.sans-serif'] = ['SimHei']
@@ -81,11 +69,9 @@ source_x, source_y = source_nodes.get_pos()
 city_x, city_y = city_nodes.get_pos()
 city_congestion = city_nodes.get_congestion()
 
-
 city_uls_flow = city_send + city_receive
 city_uls_flow = city_uls_flow[4:]
-node_uls_flow_txt = list(map(lambda x: '%.1f'%x, city_uls_flow))
-
+node_uls_flow_txt = list(map(lambda x: '%.1f' % x, city_uls_flow))
 
 left = 0
 up = 0
@@ -93,33 +79,31 @@ scale = 1
 city_point_size = 50
 node_point_size = 50
 
-plot_ug_flow = False # 城市地下流量
-plot_cluster = True # 节点
-plot_link = True # 边
-plot_city = True # 城市
-plot_campus = True # 园区
-plot_circle = True # 节点区域(虚线的圆)
-title = u'' # 图的题目,可中文,记得别把u删掉
+plot_ug_flow = False  # 城市地下流量
+plot_cluster = True  # 节点
+plot_link = True  # 边
+plot_city = True  # 城市
+plot_campus = True  # 园区
+plot_circle = True  # 节点区域(虚线的圆)
+title = u''  # 图的题目,可中文,记得别把u删掉
 
 hdls = []
 if plot_campus:
     camp_legend_hdl = subp.scatter(x=(source_x - left) * scale, y=(source_y - up) * scale, c='r', marker='o',
-                                   s = city_point_size, alpha = 0.7, label = u'物流园区')
+                                   s=city_point_size, alpha=0.7, label=u'物流园区')
     hdls.append(camp_legend_hdl)
 
 if plot_city:
     city_legend_hdl = subp.scatter(x=(city_x - left) * scale, y=(city_y - up) * scale, c=city_uls_flow,
                                    vmin=min(city_uls_flow), vmax=max(city_uls_flow), marker='s',
-                                   s = city_point_size, alpha = 0.7, label = u'地区')
+                                   s=city_point_size, alpha=0.7, label=u'地区')
     hdls.append(city_legend_hdl)
     plt.colorbar(city_legend_hdl, fraction=0.05, pad=-0.05, shrink=0.5)
 
-
 if plot_ug_flow:
     for i in range(len(node_uls_flow_txt)):
-        _x, _y = city_x[i]-500, city_y[i]+200
+        _x, _y = city_x[i] - 500, city_y[i] + 200
         subp.text(_x, _y, node_uls_flow_txt[i])
-
 
 num = 42
 if plot_link:
@@ -150,8 +134,8 @@ if plot_link:
                 lineweight = 1
                 label = u'双向双轨'
 
-            tube_legend_hdl = subp.plot([cx, ex], [cy, ey], color = 'k', lw = lineweight, alpha = 0.5,
-                                        label = label)
+            tube_legend_hdl = subp.plot([cx, ex], [cy, ey], color='k', lw=lineweight, alpha=0.5,
+                                        label=label)
 
             if not hdl_tube_2_added and lineweight == 1:
                 hdls.append(tube_legend_hdl[0])
@@ -181,8 +165,8 @@ if plot_link:
                     lineweight = 1
                     label = u'双向双轨'
 
-                tube_legend_hdl = subp.plot([lx, elx], [ly, ely], color = 'k', lw = lineweight, alpha = 0.5,
-                                            label = label)
+                tube_legend_hdl = subp.plot([lx, elx], [ly, ely], color='k', lw=lineweight, alpha=0.5,
+                                            label=label)
 
                 if not hdl_tube_2_added and lineweight == 1:
                     hdls.append(tube_legend_hdl[0])
@@ -191,19 +175,13 @@ if plot_link:
                     hdls.append(tube_legend_hdl[0])
                     hdl_tube_4_added = True
 
-
 if plot_cluster:
     with open('../data/kmeansresult/k_clusters_result_919{}.txt'.format(num), 'r') as f:
         pset = set()
         clusters = {}
-        # 1:143437.908, 150879.858
-        # 15:142646.6, 151242.96
-        # 1:143437.908, 150879.858
-        # 19:143800.1, 151838.39
-        # 1:2949.8974556
         for line in f.readlines():
-            center = line.split('\t')[0] # num:x,y
-            cid, p = center.split(':') # x,y
+            center = line.split('\t')[0]  # num:x,y
+            cid, p = center.split(':')  # x,y
 
             cluster = clusters.setdefault(cid, {})
 
@@ -239,7 +217,8 @@ if plot_cluster:
             type = 1
         else:
             type = 2
-        result_dict[int(cid)] = [int(cid), type, clu['point'][0],clu['point'][1], max(min(clu['maxdist'], 3000), 500), clu['quantity']]
+        result_dict[int(cid)] = [int(cid), type, clu['point'][0], clu['point'][1], max(min(clu['maxdist'], 3000), 500),
+                                 clu['quantity']]
     for i in range(1, 32):
         print result_dict[i]
 
@@ -249,22 +228,13 @@ if plot_cluster:
     book = xlwt.Workbook()
     sheet1 = book.add_sheet('sheet1')
 
-    # supersecretdata = [34, 123, 4, 1234, 12, 34, 12, 41, 234, 123, 4, 123, 1, 45123, 5, 43, 61, 3, 56]
-
-    # for i, e in enumerate(supersecretdata):
-    #     sheet1.write(i, 1, e)
     for i in range(1, 32):
         for j in range(1, 7):
-            sheet1.write(i, j, float(result_dict[i][j-1]))
-    # sheet1.write(5, 5, 7)
+            sheet1.write(i, j, float(result_dict[i][j - 1]))
+
     name = "q1_result.xls"
     book.save(name)
     book.save(TemporaryFile())
-
-    # import pandas as pd
-    #
-    # df = pd.DataFrame({})
-    # df.to_excel('q1_result.xlsx', header=False, index=False)
 
     for cid, clu in clusters.items():
         # print cid, clu
@@ -280,8 +250,8 @@ if plot_cluster:
             linestyle = 'dashdot'
 
         if plot_circle:
-            cir = Circle(xy = clu['point'], radius = max(min(clu['maxdist'], 3000), 500), fill = False, ls = linestyle,
-                         color = color, alpha = 0.7, label = clabel)
+            cir = Circle(xy=clu['point'], radius=max(min(clu['maxdist'], 3000), 500), fill=False, ls=linestyle,
+                         color=color, alpha=0.7, label=clabel)
             circle_legend_hdl = subp.add_patch(cir)
 
             if not hdl_circle_1_added and color == 'r':
@@ -291,8 +261,8 @@ if plot_cluster:
                 hdls.append(circle_legend_hdl)
                 hdl_circle_2_added = True
 
-        node_legend_hdl = subp.scatter(clu['point'][0], clu['point'][1], alpha=0.3, marker='*', s=node_point_size, color = color, label = nlabel)
-        # subp.text(clu['point'][0], clu['point'][1], cid)
+        node_legend_hdl = subp.scatter(clu['point'][0], clu['point'][1], alpha=0.3, marker='*', s=node_point_size,
+                                       color=color, label=nlabel)
 
         if not hdl_node_1_added and color == 'r':
             hdls.append(node_legend_hdl)
@@ -301,28 +271,14 @@ if plot_cluster:
             hdls.append(node_legend_hdl)
             hdl_node_2_added = True
 
-# plt.title(u'你好Number: {}, Allcost: {}'.format(num, allcost), fontsize = 16, fontproperties=msyhfont)
-plt.title(title, fontsize = 200, fontproperties=msyhfont)
+plt.title(title, fontsize=200, fontproperties=msyhfont)
 
-# formatter = Formatter()
-# formatter.fix_minus('7')
-# subp.xaxis.set_major_formatter(formatter)
 plt.xticks([i for i in range(130000, 170001, 5000)], [i for i in range(130, 171, 5)])
 plt.yticks([i for i in range(145000, 165001, 5000)], [i for i in range(145, 166, 5)])
 
-subp.legend(handles = hdls)
+subp.legend(handles=hdls)
 
 plt.xlim(x_min, x_max)
 plt.ylim(y_min, y_max)
 
 plt.show()
-
-# for i in range(5):
-#     randd = np.random.random((100, 100))
-#     if i == 0:
-#         mat = plt.matshow(center_status, vmin=0, vmax=1)
-#     else:
-#         mat.set_data(center_status)
-#     plt.pause(3)
-#     plt.draw()
-
