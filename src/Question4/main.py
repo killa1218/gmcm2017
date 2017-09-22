@@ -1,5 +1,6 @@
-#!/usr/bin/python
-#coding: utf-8
+#!/usr/bin/python3
+# coding=utf8
+from __future__ import print_function
 
 import os
 import json
@@ -9,8 +10,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.font_manager as fm
 from matplotlib.patches import Circle
-from matplotlib.colorbar import Colorbar as cb
-from matplotlib.collections import PatchCollection
 
 class Node:
     def __init__(self, no, akm=0, am=0, x=0, y=0, c=0):
@@ -39,18 +38,18 @@ class NodeGroup:
             c_arr.append(c.c)
         return np.array(c_arr)
 
-def plot_graph(links):
+def plot_graph(links, idx):
     columns = ['zone no.', 'zone area(km^2)', 'zone area(m^2)', 'center x(m)', 'center y(m)', 'congestion']
 
-    ids = np.loadtxt('../data/idx2node.txt')
+    ids = np.loadtxt('../../data/idx2node.txt')
 
-    ug_flow_od = np.loadtxt('../data/ug_od.txt')
+    ug_flow_od = np.loadtxt('../../res/Question1/uls_od.txt')
     receive_mat = ug_flow_od.transpose()
 
     city_send = ug_flow_od.sum(axis=1)
     city_receive = receive_mat.sum(axis=1)
 
-    d = np.loadtxt('../data/center_area.csv', skiprows=1, delimiter=',')
+    d = np.loadtxt('../../data/center_area.csv', skiprows=1, delimiter=',')
 
     source_nodes = NodeGroup([Node(*x) for x in d[:4]])
     city_nodes = NodeGroup([Node(*x) for x in d[4:]])
@@ -64,7 +63,7 @@ def plot_graph(links):
 
     plt.rcParams["figure.figsize"] = [(x_max - x_min) / 2000, (y_max - y_min) / 2000]
     plt.rcParams['font.sans-serif'] = ['SimHei']
-    msyhfont = fm.FontProperties(fname='font/msyh.ttf')
+    msyhfont = fm.FontProperties(fname='../../doc/font/msyh.ttf')
 
     source_x, source_y = source_nodes.get_pos()
     city_x, city_y = city_nodes.get_pos()
@@ -117,7 +116,7 @@ def plot_graph(links):
             subp.plot([sx, ex], [sy, ey], color='k', lw=2, alpha=0.5)
 
     if plot_cluster:
-        with open('../data/kmeansresult/k_clusters_result_919{}.txt'.format(num), 'r') as f:
+        with open('../../res/Question1/cluster/k_clusters_result_{}.txt'.format(num), 'r') as f:
             pset = set()
             clusters = {}
 
@@ -147,7 +146,6 @@ def plot_graph(links):
                 else:
                     cluster['quantity'] = float(p)
 
-        patches = []
         hdl_circle_1_added = False
         hdl_circle_2_added = False
         hdl_node_1_added = False
@@ -194,6 +192,8 @@ def plot_graph(links):
     plt.xlim(x_min, x_max)
     plt.ylim(y_min, y_max)
 
+    plt.savefig('../../res/Question4/p{}.png'.format(idx + 1))
+
     plt.show()
 
 def store_obj(obj,file_path):
@@ -208,8 +208,8 @@ def load_obj(file_path):
 
 def get_tree_links():
     num = 42
-    with open('../data/linksresult/campuslink_{}.json'.format(num), 'r') as cf, \
-            open('../data/linksresult/links_{}.json'.format(num), 'r') as lf:
+    with open('../../res/Question2/campuslink_{}.json'.format(num), 'r') as cf, \
+            open('../../res/Question2/links_{}.json'.format(num), 'r') as lf:
         campuslink = json.load(cf)
         links = json.load(lf)
 
@@ -238,10 +238,10 @@ def get_link_dict():
     return result_dict
 
 def get_top_flow():
-    ug_flow_od = np.loadtxt('../data/ug_od.txt')
+    ug_flow_od = np.loadtxt('../../res/Question1/uls_od.txt')
     top_flow = np.zeros([32,32])
     a_dict = {}
-    with open('../data/kmeansresult/k_clusters_result_91942.txt') as read_file:
+    with open('../../res/Question1/cluster/k_clusters_result_42.txt') as read_file:
         for line in read_file:
             items = line.split('\t')
             if len(items)==1:
@@ -326,11 +326,13 @@ def show_evolution_result():
         link_dict.pop(tar_key)
 
     result_list = map(lambda x: map(lambda y: y[1:],x), result_list)
-    print result_list
+    print(result_list)
 
     plot_list = []
     cur_length_count = 0
     for item in result_list:
+        item = list(item)
+
         cur_length_count += distance(item[0], item[1])
         if int(cur_length_count*8/all_length)>=len(plot_list):
             plot_list.append([])
@@ -348,8 +350,8 @@ def show_evolution_result():
             plot_list[-1].append(item)
 
     for i in range(8):
-        plot_graph(plot_list[i])
-
-show_evolution_result()
+        plot_graph(plot_list[i], i)
 
 
+if __name__ == '__main__':
+    show_evolution_result()
